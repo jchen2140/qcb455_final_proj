@@ -1,3 +1,3 @@
 print("hello world")
 print("Charlotte learning git!")
-print('learning to save')
+# put in terminal "git pull" every time I write code BEFORE I START
