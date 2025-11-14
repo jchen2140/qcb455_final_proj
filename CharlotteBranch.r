@@ -133,6 +133,8 @@ umap_most_essential_lung <- umap_plot_lung |>
 umap_least_essential_lung <- umap_plot_lung |>
   slice(least_essential_index_lung)
 
+  length(color_lung)
+
 # create the plot of the UMAP
 ggplot(
   umap_plot_lung,
