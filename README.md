@@ -165,8 +165,8 @@ This matrix is used by downstream scripts such as `cancer_type_dependencies.r`.
 
 5. **Save figure**
 
-   * Output: `figure6a_alphabetized.png` (10 × 6 inches, 300 dpi)
+   * Output: `figure6a_alphabetized.png`
 
 ## Output
 
-* **figure6a_alphabetized.png**: publication-ready plot showing differential essentiality of modules across top cancer types with FDR thresholds overlaid.
+* **figure6a_alphabetized.png**: plot showing differential essentiality of modules across top cancer types.
