@@ -1,48 +1,47 @@
-cancer_type_dependencies.r
+## `cancer_type_dependencies.r`
 
-This script identifies cancer-type–specific dependencies of predefined gene modules using gene essentiality screening data.
+This script identifies **cancer-type–specific dependencies** of predefined **gene modules** using gene essentiality screening data.
 
-Inputs
+### Inputs
 
-Gene essentiality matrix (loaded via load_screens()):
-Rows represent genes and columns represent cell lines. Cancer type is inferred from cell-line column names.
+* **Gene essentiality matrix** (loaded via `load_screens()`):
+  Rows represent genes and columns represent cell lines. Cancer type is inferred from cell-line column names.
+* **Module file:** `modules_d_{d}.csv`
+  Contains a `"Members"` column with space-separated gene lists defining each module.
 
-Module file: modules_d_{d}.csv
-Contains a "Members" column with space-separated gene lists defining each module.
+### Workflow
 
-Workflow
+1. **Load and preprocess data**
 
-Load and preprocess data
+   * Load essentiality screens and gene modules.
+   * Remove cancer types represented by only one cell line.
+   * One-hot encode remaining cancer types.
 
-Load essentiality screens and gene modules.
+2. **Covariance adjustment**
 
-Remove cancer types represented by only one cell line.
+   * Apply a Cholesky transform of the inverse covariance matrix to decorrelate cell-line measurements.
 
-One-hot encode remaining cancer types.
+3. **Gene-level regression**
 
-Covariance adjustment
+   * Fit an OLS model for each gene:
+     *essentiality ~ cancer-type indicators*.
+   * Store p-values for each cancer type.
 
-Apply a Cholesky transform of the inverse covariance matrix to decorrelate cell-line measurements.
+4. **Module-level meta-analysis (ACAT)**
 
-Gene-level regression
+   * For each gene module × cancer-type pair, combine gene-level p-values using ACAT.
 
-Fit an OLS model for each gene:
-essentiality ~ cancer-type indicators.
+5. **Multiple-testing correction**
 
-Store p-values for each cancer type.
+   * Apply FDR correction separately within each cancer type.
+   * Keep results with FDR < 0.5.
 
-Module-level meta-analysis (ACAT)
+### Output
 
-For each gene module × cancer-type pair, combine gene-level p-values using ACAT.
+* **`cancer_type_dependencies.tsv`**
+  A ranked table of significant module–cancer-type associations with columns:
+  **Rank, Module genes, Cancer type, p, FDR**.
 
-Multiple-testing correction
+-------------------------------------------------------------------
 
-Apply FDR correction separately within each cancer type.
 
-Keep results with FDR < 0.5.
-
-Output
-
-cancer_type_dependencies.tsv
-A ranked table of significant module–cancer-type associations with columns:
-Rank, Module genes, Cancer type, p, FDR.
