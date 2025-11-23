@@ -4,11 +4,15 @@ library(tidyr)
 library(ggplot2)
 library(janitor) 
 
-df <- read_csv("Supplementary_Data_9 - Sheet1.csv") %>%
-  clean_names() 
+# Read the TSV file
+df <- read_tsv("cancer_type_dependencies.tsv") %>%
+  clean_names()  # converts column names to lowercase and underscores
 
+# Check column names
 colnames(df)
+# Should now be: "rank", "module_genes", "cancer_type", "p", "fdr"
 
+# Prepare for plotting
 plot_df <- df %>%
   rename(
     ModuleGenes = module_genes,
@@ -21,10 +25,12 @@ plot_df <- df %>%
     NegLogFDR = -log10(FDR)
   )
 
+# Compute average FDR threshold per cancer type
 fdr_df <- plot_df %>%
   group_by(CancerType) %>%
   summarise(FDR_thresh = mean(NegLogFDR, na.rm = TRUE), .groups = "drop")
 
+# Select top 20 tissues by median -log10(p)
 top20_tissues <- plot_df %>%
   group_by(CancerType) %>%
   summarise(medP = median(NegLogP, na.rm = TRUE)) %>%
@@ -32,14 +38,17 @@ top20_tissues <- plot_df %>%
   slice_head(n = 20) %>%
   pull(CancerType)
 
+# Filter to top tissues
 plot_df <- plot_df %>% filter(CancerType %in% top20_tissues)
 fdr_df <- fdr_df %>% filter(CancerType %in% top20_tissues)
 
+# Factor levels for consistent ordering
 plot_df <- plot_df %>%
   mutate(CancerType = factor(CancerType, levels = sort(unique(CancerType))))
 fdr_df <- fdr_df %>%
   mutate(CancerType = factor(CancerType, levels = sort(unique(CancerType))))
 
+# Plot
 p <- ggplot(plot_df, aes(x = CancerType, y = NegLogP)) +
   geom_jitter(aes(color = CancerType), width = 0.25, size = 1.3, alpha = 0.7, show.legend = FALSE) +
   geom_segment(
@@ -68,6 +77,5 @@ p <- ggplot(plot_df, aes(x = CancerType, y = NegLogP)) +
 
 print(p)
 
+# Save figure
 ggsave("figure6a_alphabetized.png", plot = p, width = 10, height = 6, dpi = 300)
-
-# to run, create an R terminal and run source("figure6a.R")
