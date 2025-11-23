@@ -43,5 +43,84 @@ This script identifies **cancer-type–specific dependencies** of predefined **g
   **Rank, Module genes, Cancer type, p, FDR**.
 
 -------------------------------------------------------------------
+# `load_screens.r`
 
+## Overview
+
+`load_screens.r` loads and preprocesses gene essentiality screening data. It harmonizes cell-line identifiers, corrects technical bias using olfactory genes, and outputs a cleaned gene-by-cell-line matrix for downstream analysis.
+
+---
+
+## Inputs
+
+### 1. `gene_effect.csv`
+
+* Main gene essentiality matrix.
+* First column contains gene identifiers (converted to rownames).
+* Remaining columns are Broad Institute cell-line IDs.
+
+### 2. `sample_info.csv`
+
+Used to map:
+
+* **`Broad_ID` → `CCLE_name`**
+  Columns required:
+* `Broad_ID`
+* `CCLE_name`
+
+### 3. `olfactory_genes.txt`
+
+* A list of gene names (one per line).
+* Used for PCA-based bias correction.
+
+---
+
+## Workflow
+
+### 1. Load and Format Gene Essentiality Data
+
+* Read `gene_effect.csv`.
+* Convert the first column to rownames.
+* Transpose so matrix is **genes × cell lines**.
+* Trim rownames to the first word (to clean gene symbols).
+
+### 2. Map Cell-Line Identifiers
+
+* Read `sample_info.csv`.
+* Match Broad IDs in `gene_effect.csv` to CCLE names.
+* Retain only cell lines present in both files.
+* Rename columns to CCLE names.
+
+### 3. PCA-Based Bias Correction Using Olfactory Genes
+
+1. Load olfactory gene list.
+2. Subset to genes present in the screen.
+3. If ≥4 olfactory genes available:
+
+   * Run PCA on **cell lines × olfactory genes**.
+   * Reconstruct the signal explained by up to the top 4 PCs.
+   * Subtract these PC effects from the corresponding genes in the main matrix.
+   * This removes common technical variation associated with olfactory genes.
+
+### 4. Final Formatting
+
+* Drop the last 4 columns to match the behavior of the Python preprocessing.
+* Return a cleaned data frame of:
+  **rows = genes, columns = cell lines (CCLE names).**
+
+---
+
+## Output
+
+### Returned Object
+
+A **preprocessed gene essentiality matrix** with:
+
+* Harmonized cell-line names
+* PCA-corrected values (using olfactory genes)
+* Final dimension after removing last 4 columns
+
+This matrix is used by downstream scripts such as `cancer_type_dependencies.r`.
+
+-------------------------------------------------------------------
 
