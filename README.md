@@ -123,4 +123,50 @@ A **preprocessed gene essentiality matrix** with:
 This matrix is used by downstream scripts such as `cancer_type_dependencies.r`.
 
 -------------------------------------------------------------------
+# figure6a.r
 
+## Overview
+
+`figure6a.r` visualizes the differential essentiality of gene modules across cancer types using the results file `cancer_type_dependencies.tsv`. It computes significance metrics, selects top tissue types, and generates a publication-ready plot.
+
+## Inputs
+
+* **cancer_type_dependencies.tsv**: tab-separated file with columns:
+
+  * Rank
+  * Module genes
+  * Cancer type
+  * p (ACAT p-value)
+  * FDR
+
+## Workflow
+
+1. **Load and clean data**
+
+   * Read TSV and clean column names using `janitor::clean_names()`
+   * Rename key variables to `ModuleGenes`, `CancerType`, `Pvalue`, `FDR`
+   * Compute `NegLogP = -log10(Pvalue)` and `NegLogFDR = -log10(FDR)`
+
+2. **Compute FDR thresholds per cancer type**
+
+   * Calculate mean `NegLogFDR` per cancer type for reference lines in the plot
+
+3. **Select top 20 cancer types**
+
+   * Rank by median `NegLogP`
+   * Filter both plot data and FDR thresholds to top 20
+   * Set factor levels for consistent ordering
+
+4. **Visualization**
+
+   * Jittered points of `-log10(p)` per module–cancer-type pair
+   * Red horizontal segments for FDR thresholds
+   * Minimal theme, rotated x-axis labels, title: "Differential essentiality of modules by tissue type"
+
+5. **Save figure**
+
+   * Output: `figure6a_alphabetized.png` (10 × 6 inches, 300 dpi)
+
+## Output
+
+* **figure6a_alphabetized.png**: publication-ready plot showing differential essentiality of modules across top cancer types with FDR thresholds overlaid.
