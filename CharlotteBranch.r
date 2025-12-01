@@ -10,6 +10,10 @@ library("ggplot2")
 library("tidyverse")
 library("umap")
 
+
+
+######################### FIGURE 6a, 6b ######################################
+
 # read in the file containing the bias-corrected CERES scores for genes
 bias_corrected <- read.csv("data/bias_corrected_data.csv") |>
   column_to_rownames("X")
@@ -92,7 +96,7 @@ ggplot(
 
 
 
-## plotting gene co-essentiality in lung cancer
+### plotting gene co-essentiality in lung cancer
 
 # filter the total list of genes to just include lung cancer lines
 bias_corrected_lung <- bias_corrected |>
@@ -133,7 +137,7 @@ umap_most_essential_lung <- umap_plot_lung |>
 umap_least_essential_lung <- umap_plot_lung |>
   slice(least_essential_index_lung)
 
-  length(color_lung)
+length(color_lung)
 
 # create the plot of the UMAP
 ggplot(
@@ -168,3 +172,58 @@ ggplot(
     alpha = 0.3
   ) + labs(title = "2D Co-Essentiality Map of
            \n Genes Found in Lung Cancer Cell Lines")
+
+
+############################# FIGURE 2a ###############################
+
+data_2a <- read.csv("data/modules_d_0.5.csv")
+
+## DoRothEA data
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("dorothea")
+BiocManager::install("OmnipathR")
+
+library(dorothea)
+library(decoupleR)
+
+human_regulons <- decoupleR::get_dorothea(levels = c('A', 'B', 'C', 'D'))
+head(human_regulons)
+
+colnames(human_regulons)
+hr_source <- human_regulons$source
+hr_confidence <- vector(, nrow(human_regulons))
+for (i in 1:length(hr_confidence)) {
+  if (human_regulons$confidence[i] == "A") {
+    hr_confidence[i] <- 1
+  } else if(human_regulons$confidence[i] == "B") {
+    hr_confidence[i] <- 0.7
+  } else if(human_regulons$confidence[i] == "C") {
+    hr_confidence[i] <- 0.4
+  } else if(human_regulons$confidence[i] == "D") {
+    hr_confidence[i] <- 0.1
+  }
+}
+hr_target <- human_regulons$target
+
+dorothea_pairs <- bind_cols(hr_source, hr_target, hr_confidence)
+colnames(dorothea_pairs) <- c("source", "target", "confidence")
+
+
+## hu.MAP data
+hu.MAP <- read.csv("data/hu.MAP.pairsWprob", sep = '\t')
+
+## coxpres data
+coxpres <- read.csv("data/coxpres_db.csv", header = TRUE)
+coxpres_clean <- coxpres[ , -c(1)]
+rownames(coxpres_clean) <- row_col_names
+colnames(coxpres_clean) <- row_col_names
+
+diag(coxpres_clean) <- NA
+coxpres_clean[upper.tri(coxpres_clean, diag = TRUE)] <- NA
+# mini_coxpres <- as(coxpres_clean, "sparseMatrix")
+mini_coxpres <- which(!is.na(coxpres_clean), arr.ind = TRUE)
+
+library(reshape2)
+subset(melt(mini_coxpres))
