@@ -174,6 +174,347 @@ ggplot(
            \n Genes Found in Lung Cancer Cell Lines")
 
 
+################# MY NEW FIGURE 7 #######################
+
+# autonomic ganglia
+bias_corrected_ag <- bias_corrected |>
+  select(contains("AUTONOMIC_GANGLIA"))
+umap_colors_ag <- bias_corrected_ag |>
+  mutate(avg = rowMeans(bias_corrected_ag))
+color_ag <- umap_colors_ag$avg
+top_3_ag <- as.data.frame(color_ag) |>
+  mutate(index = 1:length(color_ag)) |>
+  slice_max(color_ag, n = 3) |>
+  rownames_to_column("genes")
+top_3_ag_genes <- (top_3_ag$genes)
+ag_table <- select(hs, 
+       keys = top_3_ag_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# bone
+top_3_bone <- as.data.frame(color_bone) |>
+  mutate(index = 1:length(color_bone)) |>
+  slice_max(color_bone, n = 3) |>
+  rownames_to_column("genes")
+top_3_bone_genes <- (top_3_bone$genes)
+bone_table <- select(hs, 
+       keys = top_3_bone_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# breast
+bias_corrected_breast <- bias_corrected |>
+  select(contains("BREAST"))
+umap_colors_breast <- bias_corrected_breast |>
+  mutate(avg = rowMeans(bias_corrected_breast))
+color_breast <- umap_colors_breast$avg
+top_3_breast <- as.data.frame(color_breast) |>
+  mutate(index = 1:length(color_breast)) |>
+  slice_max(color_breast, n = 3) |>
+  rownames_to_column("genes")
+top_3_breast_genes <- (top_3_breast$genes)
+breast_table <- select(hs, 
+       keys = top_3_breast_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# central nervous system
+bias_corrected_cns <- bias_corrected |>
+  select(contains("CENTRAL_NERVOUS_SYSTEM"))
+umap_colors_cns <- bias_corrected_cns |>
+  mutate(avg = rowMeans(bias_corrected_cns))
+color_cns <- umap_colors_cns$avg
+top_3_cns <- as.data.frame(color_cns) |>
+  mutate(index = 1:length(color_cns)) |>
+  slice_max(color_cns, n = 3) |>
+  rownames_to_column("genes")
+top_3_cns_genes <- (top_3_cns$genes)
+cns_table <- select(hs, 
+       keys = top_3_cns_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# endometrium
+bias_corrected_endo <- bias_corrected |>
+  select(contains("ENDOMETRIUM"))
+umap_colors_endo <- bias_corrected_endo |>
+  mutate(avg = rowMeans(bias_corrected_endo))
+color_endo <- umap_colors_endo$avg
+top_3_endo <- as.data.frame(color_endo) |>
+  mutate(index = 1:length(color_endo)) |>
+  slice_max(color_endo, n = 3) |>
+  rownames_to_column("genes")
+top_3_endo_genes <- (top_3_endo$genes)
+endo_table <- select(hs, 
+       keys = top_3_endo_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# hematopoietic and lymphoid tissue
+bias_corrected_hlt <- bias_corrected |>
+  select(contains("HAEMATOPOIETIC_AND_LYMPHOID_TISSUE"))
+umap_colors_hlt <- bias_corrected_hlt |>
+  mutate(avg = rowMeans(bias_corrected_hlt))
+color_hlt <- umap_colors_hlt$avg
+top_3_hlt <- as.data.frame(color_hlt) |>
+  mutate(index = 1:length(color_hlt)) |>
+  slice_max(color_hlt, n = 3) |>
+  rownames_to_column("genes")
+top_3_hlt_genes <- (top_3_hlt$genes)
+hlt_table <- select(hs, 
+       keys = top_3_hlt_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# kidney
+bias_corrected_kidney <- bias_corrected |>
+  select(contains("KIDNEY"))
+umap_colors_kidney <- bias_corrected_kidney |>
+  mutate(avg = rowMeans(bias_corrected_kidney))
+color_kidney <- umap_colors_kidney$avg
+top_3_kidney <- as.data.frame(color_kidney) |>
+  mutate(index = 1:length(color_kidney)) |>
+  slice_max(color_kidney, n = 3) |>
+  rownames_to_column("genes")
+top_3_kidney_genes <- (top_3_kidney$genes)
+kidney_table <- select(hs, 
+       keys = top_3_kidney_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# large intestine
+bias_corrected_largeint <- bias_corrected |>
+  select(contains("LARGE_INTESTINE"))
+umap_colors_largeint <- bias_corrected_largeint |>
+  mutate(avg = rowMeans(bias_corrected_largeint))
+color_largeint <- umap_colors_largeint$avg
+top_3_largeint <- as.data.frame(color_largeint) |>
+  mutate(index = 1:length(color_largeint)) |>
+  slice_max(color_largeint, n = 3) |>
+  rownames_to_column("genes")
+top_3_largeint_genes <- (top_3_largeint$genes)
+largeint_table <- select(hs, 
+       keys = top_3_largeint_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# liver
+bias_corrected_liver <- bias_corrected |>
+  select(contains("LIVER"))
+umap_colors_liver <- bias_corrected_liver |>
+  mutate(avg = rowMeans(bias_corrected_liver))
+color_liver <- umap_colors_liver$avg
+top_3_liver <- as.data.frame(color_liver) |>
+  mutate(index = 1:length(color_liver)) |>
+  slice_max(color_liver, n = 3) |>
+  rownames_to_column("genes")
+top_3_liver_genes <- (top_3_liver$genes)
+liver_table <- select(hs, 
+       keys = top_3_liver_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# lung
+top_3_lung <- as.data.frame(color_lung) |>
+  mutate(index = 1:length(color_lung)) |>
+  slice_max(color_lung, n = 3) |>
+  rownames_to_column("genes")
+top_3_lung_genes <- (top_3_lung$genes)
+lung_table <- select(hs, 
+       keys = top_3_lung_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# esophagus
+bias_corrected_eso <- bias_corrected |>
+  select(contains("OESOPHAGUS"))
+umap_colors_eso <- bias_corrected_eso |>
+  mutate(avg = rowMeans(bias_corrected_eso))
+color_eso <- umap_colors_eso$avg
+top_3_eso <- as.data.frame(color_eso) |>
+  mutate(index = 1:length(color_eso)) |>
+  slice_max(color_eso, n = 3) |>
+  rownames_to_column("genes")
+top_3_eso_genes <- (top_3_eso$genes)
+eso_table <- select(hs, 
+       keys = top_3_eso_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# ovary
+bias_corrected_ovary <- bias_corrected |>
+  select(contains("OVARY"))
+umap_colors_ovary <- bias_corrected_ovary |>
+  mutate(avg = rowMeans(bias_corrected_ovary))
+color_ovary <- umap_colors_ovary$avg
+top_3_ovary <- as.data.frame(color_ovary) |>
+  mutate(index = 1:length(color_ovary)) |>
+  slice_max(color_ovary, n = 3) |>
+  rownames_to_column("genes")
+top_3_ovary_genes <- (top_3_ovary$genes)
+ovary_table <- select(hs, 
+       keys = top_3_ovary_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# pancreas
+bias_corrected_pan <- bias_corrected |>
+  select(contains("PANCREAS"))
+umap_colors_pan <- bias_corrected_pan |>
+  mutate(avg = rowMeans(bias_corrected_pan))
+color_pan <- umap_colors_pan$avg
+top_3_pan <- as.data.frame(color_pan) |>
+  mutate(index = 1:length(color_pan)) |>
+  slice_max(color_pan, n = 3) |>
+  rownames_to_column("genes")
+top_3_pan_genes <- (top_3_pan$genes)
+pan_table <- select(hs, 
+       keys = top_3_pan_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# pleura
+bias_corrected_ple <- bias_corrected |>
+  select(contains("PLEURA"))
+umap_colors_ple <- bias_corrected_ple |>
+  mutate(avg = rowMeans(bias_corrected_ple))
+color_ple <- umap_colors_ple$avg
+top_3_ple <- as.data.frame(color_ple) |>
+  mutate(index = 1:length(color_ple)) |>
+  slice_max(color_ple, n = 3) |>
+  rownames_to_column("genes")
+top_3_ple_genes <- (top_3_ple$genes)
+ple_table <- select(hs, 
+       keys = top_3_ple_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# skin
+bias_corrected_skin <- bias_corrected |>
+  select(contains("SKIN"))
+umap_colors_skin <- bias_corrected_skin |>
+  mutate(avg = rowMeans(bias_corrected_skin))
+color_skin <- umap_colors_skin$avg
+top_3_skin <- as.data.frame(color_skin) |>
+  mutate(index = 1:length(color_skin)) |>
+  slice_max(color_skin, n = 3) |>
+  rownames_to_column("genes")
+top_3_skin_genes <- (top_3_skin$genes)
+skin_table <- select(hs, 
+       keys = top_3_skin_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# soft tissue
+bias_corrected_soft <- bias_corrected |>
+  select(contains("SOFT_TISSUE"))
+umap_colors_soft <- bias_corrected_soft |>
+  mutate(avg = rowMeans(bias_corrected_soft))
+color_soft <- umap_colors_soft$avg
+top_3_soft <- as.data.frame(color_soft) |>
+  mutate(index = 1:length(color_soft)) |>
+  slice_max(color_soft, n = 3) |>
+  rownames_to_column("genes")
+top_3_soft_genes <- (top_3_soft$genes)
+soft_table <- select(hs, 
+       keys = top_3_soft_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# stomach
+bias_corrected_sto <- bias_corrected |>
+  select(contains("STOMACH"))
+umap_colors_sto <- bias_corrected_sto |>
+  mutate(avg = rowMeans(bias_corrected_sto))
+color_sto <- umap_colors_sto$avg
+top_3_sto <- as.data.frame(color_sto) |>
+  mutate(index = 1:length(color_sto)) |>
+  slice_max(color_sto, n = 3) |>
+  rownames_to_column("genes")
+top_3_sto_genes <- (top_3_sto$genes)
+sto_table <- select(hs, 
+       keys = top_3_sto_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# thyroid
+bias_corrected_thy <- bias_corrected |>
+  select(contains("THYROID"))
+umap_colors_thy <- bias_corrected_thy |>
+  mutate(avg = rowMeans(bias_corrected_thy))
+color_thy <- umap_colors_thy$avg
+top_3_thy <- as.data.frame(color_thy) |>
+  mutate(index = 1:length(color_thy)) |>
+  slice_max(color_thy, n = 3) |>
+  rownames_to_column("genes")
+top_3_thy_genes <- (top_3_thy$genes)
+thy_table <- select(hs, 
+       keys = top_3_thy_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# upper aerodigestive tract
+bias_corrected_uat <- bias_corrected |>
+  select(contains("UPPER_AERODIGESTIVE_TRACT"))
+umap_colors_uat <- bias_corrected_uat |>
+  mutate(avg = rowMeans(bias_corrected_uat))
+color_uat <- umap_colors_uat$avg
+top_3_uat <- as.data.frame(color_uat) |>
+  mutate(index = 1:length(color_uat)) |>
+  slice_max(color_uat, n = 3) |>
+  rownames_to_column("genes")
+top_3_uat_genes <- (top_3_uat$genes)
+uat_table <- select(hs, 
+       keys = top_3_uat_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+# urinary tract
+bias_corrected_urine <- bias_corrected |>
+  select(contains("URINARY_TRACT"))
+umap_colors_urine <- bias_corrected_urine |>
+  mutate(avg = rowMeans(bias_corrected_urine))
+color_urine <- umap_colors_urine$avg
+top_3_urine <- as.data.frame(color_urine) |>
+  mutate(index = 1:length(color_urine)) |>
+  slice_max(color_urine, n = 3) |>
+  rownames_to_column("genes")
+top_3_urine_genes <- (top_3_urine$genes)
+urine_table <- select(hs, 
+       keys = top_3_urine_genes,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+columns(org.Hs.eg.db)
+
+# get the entrez ID for each of the genes
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("org.Hs.eg.db")
+
+hs <- org.Hs.eg.db
+symbols <- top_3_urine_genes
+
+select(hs, 
+       keys = symbols,
+       columns = c("ENTREZID", "SYMBOL"),
+       keytype = "SYMBOL")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ############################# FIGURE 2a ###############################
 
 data_2a <- read.csv("data/modules_d_0.5.csv")
@@ -222,8 +563,40 @@ colnames(coxpres_clean) <- row_col_names
 
 diag(coxpres_clean) <- NA
 coxpres_clean[upper.tri(coxpres_clean, diag = TRUE)] <- NA
-# mini_coxpres <- as(coxpres_clean, "sparseMatrix")
-mini_coxpres <- which(!is.na(coxpres_clean), arr.ind = TRUE)
 
-library(reshape2)
-subset(melt(mini_coxpres))
+# the following code was provided by ChatGPT because of memory constraints on my computer
+library(Matrix)
+library(data.table)
+library(parallel)
+
+output_file <- "triplets.csv"
+fwrite(data.table(gene1=character(), gene2=character(), score=numeric()),
+       output_file)  # create header
+
+# Step 3: Process each row one by one
+for (i in seq_len(nrow(coxpres_clean))) {
+  
+  # Extract row
+  row_vals <- coxpres_clean[i, ]
+  
+  # Identify columns with non-NA values
+  non_na_cols <- which(!is.na(row_vals))
+  
+  # Only proceed if there are valid entries
+  if (length(non_na_cols) > 0) {
+    # Create triplet table for this row
+    triplets <- data.table(
+      gene1 = rownames(coxpres_clean)[i],
+      gene2 = colnames(coxpres_clean)[non_na_cols],
+      score = row_vals[non_na_cols]
+    )
+    
+    # Immediately append to disk
+    fwrite(triplets, output_file, append = TRUE)
+  }
+  
+  # Free memory
+  rm(row_vals, triplets)
+  gc()
+}
+# end of code provided by ChatGPT for memory purposes
