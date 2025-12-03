@@ -6,3 +6,5 @@ and clustered these together to gain a broader biological understanding of the p
 figure 7a. I manually annotated the genes with the broad functions based on GO terms and the pathways in which they are involved in 
 Supplementary Table 2. From here, I plotted the clusters as a bar chart to show the relative size of each type of biological pathway
 for highly co-expressed genes in cancer.
+
+My code document is heavily commented with more details about how I do each of the steps and what I am doing at each step.
