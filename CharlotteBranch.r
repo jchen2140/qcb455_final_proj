@@ -187,21 +187,17 @@ top_3_ag <- as.data.frame(color_ag) |>
   slice_max(color_ag, n = 3) |>
   rownames_to_column("genes")
 top_3_ag_genes <- (top_3_ag$genes)
-ag_table <- select(hs, 
-       keys = top_3_ag_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+overall_genes <- as.data.frame(top_3_ag_genes) |>
+  `colnames<-`(c("genes"))
 
 # bone
 top_3_bone <- as.data.frame(color_bone) |>
   mutate(index = 1:length(color_bone)) |>
   slice_max(color_bone, n = 3) |>
   rownames_to_column("genes")
-top_3_bone_genes <- (top_3_bone$genes)
-bone_table <- select(hs, 
-       keys = top_3_bone_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_bone_genes <- as.data.frame(top_3_bone$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_bone_genes)
 
 # breast
 bias_corrected_breast <- bias_corrected |>
@@ -213,11 +209,9 @@ top_3_breast <- as.data.frame(color_breast) |>
   mutate(index = 1:length(color_breast)) |>
   slice_max(color_breast, n = 3) |>
   rownames_to_column("genes")
-top_3_breast_genes <- (top_3_breast$genes)
-breast_table <- select(hs, 
-       keys = top_3_breast_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_breast_genes <- as.data.frame(top_3_breast$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_breast_genes)
 
 # central nervous system
 bias_corrected_cns <- bias_corrected |>
@@ -229,11 +223,9 @@ top_3_cns <- as.data.frame(color_cns) |>
   mutate(index = 1:length(color_cns)) |>
   slice_max(color_cns, n = 3) |>
   rownames_to_column("genes")
-top_3_cns_genes <- (top_3_cns$genes)
-cns_table <- select(hs, 
-       keys = top_3_cns_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_cns_genes <- as.data.frame(top_3_cns$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_cns_genes)
 
 # endometrium
 bias_corrected_endo <- bias_corrected |>
@@ -245,11 +237,9 @@ top_3_endo <- as.data.frame(color_endo) |>
   mutate(index = 1:length(color_endo)) |>
   slice_max(color_endo, n = 3) |>
   rownames_to_column("genes")
-top_3_endo_genes <- (top_3_endo$genes)
-endo_table <- select(hs, 
-       keys = top_3_endo_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_endo_genes <- as.data.frame(top_3_endo$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_endo_genes)
 
 # hematopoietic and lymphoid tissue
 bias_corrected_hlt <- bias_corrected |>
@@ -261,11 +251,9 @@ top_3_hlt <- as.data.frame(color_hlt) |>
   mutate(index = 1:length(color_hlt)) |>
   slice_max(color_hlt, n = 3) |>
   rownames_to_column("genes")
-top_3_hlt_genes <- (top_3_hlt$genes)
-hlt_table <- select(hs, 
-       keys = top_3_hlt_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_hlt_genes <- as.data.frame(top_3_hlt$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_hlt_genes)
 
 # kidney
 bias_corrected_kidney <- bias_corrected |>
@@ -277,11 +265,9 @@ top_3_kidney <- as.data.frame(color_kidney) |>
   mutate(index = 1:length(color_kidney)) |>
   slice_max(color_kidney, n = 3) |>
   rownames_to_column("genes")
-top_3_kidney_genes <- (top_3_kidney$genes)
-kidney_table <- select(hs, 
-       keys = top_3_kidney_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_kidney_genes <- as.data.frame(top_3_kidney$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_kidney_genes)
 
 # large intestine
 bias_corrected_largeint <- bias_corrected |>
@@ -293,11 +279,9 @@ top_3_largeint <- as.data.frame(color_largeint) |>
   mutate(index = 1:length(color_largeint)) |>
   slice_max(color_largeint, n = 3) |>
   rownames_to_column("genes")
-top_3_largeint_genes <- (top_3_largeint$genes)
-largeint_table <- select(hs, 
-       keys = top_3_largeint_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_largeint_genes <- as.data.frame(top_3_largeint$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_largeint_genes)
 
 # liver
 bias_corrected_liver <- bias_corrected |>
@@ -309,22 +293,18 @@ top_3_liver <- as.data.frame(color_liver) |>
   mutate(index = 1:length(color_liver)) |>
   slice_max(color_liver, n = 3) |>
   rownames_to_column("genes")
-top_3_liver_genes <- (top_3_liver$genes)
-liver_table <- select(hs, 
-       keys = top_3_liver_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_liver_genes <- as.data.frame(top_3_liver$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_liver_genes)
 
 # lung
 top_3_lung <- as.data.frame(color_lung) |>
   mutate(index = 1:length(color_lung)) |>
   slice_max(color_lung, n = 3) |>
   rownames_to_column("genes")
-top_3_lung_genes <- (top_3_lung$genes)
-lung_table <- select(hs, 
-       keys = top_3_lung_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_lung_genes <- as.data.frame(top_3_lung$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_lung_genes)
 
 # esophagus
 bias_corrected_eso <- bias_corrected |>
@@ -336,11 +316,9 @@ top_3_eso <- as.data.frame(color_eso) |>
   mutate(index = 1:length(color_eso)) |>
   slice_max(color_eso, n = 3) |>
   rownames_to_column("genes")
-top_3_eso_genes <- (top_3_eso$genes)
-eso_table <- select(hs, 
-       keys = top_3_eso_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_eso_genes <- as.data.frame(top_3_eso$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_eso_genes)
 
 # ovary
 bias_corrected_ovary <- bias_corrected |>
@@ -352,11 +330,9 @@ top_3_ovary <- as.data.frame(color_ovary) |>
   mutate(index = 1:length(color_ovary)) |>
   slice_max(color_ovary, n = 3) |>
   rownames_to_column("genes")
-top_3_ovary_genes <- (top_3_ovary$genes)
-ovary_table <- select(hs, 
-       keys = top_3_ovary_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_ovary_genes <- as.data.frame(top_3_ovary$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_ovary_genes)
 
 # pancreas
 bias_corrected_pan <- bias_corrected |>
@@ -368,11 +344,9 @@ top_3_pan <- as.data.frame(color_pan) |>
   mutate(index = 1:length(color_pan)) |>
   slice_max(color_pan, n = 3) |>
   rownames_to_column("genes")
-top_3_pan_genes <- (top_3_pan$genes)
-pan_table <- select(hs, 
-       keys = top_3_pan_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_pan_genes <- as.data.frame(top_3_pan$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_pan_genes)
 
 # pleura
 bias_corrected_ple <- bias_corrected |>
@@ -384,11 +358,9 @@ top_3_ple <- as.data.frame(color_ple) |>
   mutate(index = 1:length(color_ple)) |>
   slice_max(color_ple, n = 3) |>
   rownames_to_column("genes")
-top_3_ple_genes <- (top_3_ple$genes)
-ple_table <- select(hs, 
-       keys = top_3_ple_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_ple_genes <- as.data.frame(top_3_ple$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_ple_genes)
 
 # skin
 bias_corrected_skin <- bias_corrected |>
@@ -400,11 +372,9 @@ top_3_skin <- as.data.frame(color_skin) |>
   mutate(index = 1:length(color_skin)) |>
   slice_max(color_skin, n = 3) |>
   rownames_to_column("genes")
-top_3_skin_genes <- (top_3_skin$genes)
-skin_table <- select(hs, 
-       keys = top_3_skin_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_skin_genes <- as.data.frame(top_3_skin$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_skin_genes)
 
 # soft tissue
 bias_corrected_soft <- bias_corrected |>
@@ -416,11 +386,9 @@ top_3_soft <- as.data.frame(color_soft) |>
   mutate(index = 1:length(color_soft)) |>
   slice_max(color_soft, n = 3) |>
   rownames_to_column("genes")
-top_3_soft_genes <- (top_3_soft$genes)
-soft_table <- select(hs, 
-       keys = top_3_soft_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_soft_genes <- as.data.frame(top_3_soft$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_soft_genes)
 
 # stomach
 bias_corrected_sto <- bias_corrected |>
@@ -432,11 +400,9 @@ top_3_sto <- as.data.frame(color_sto) |>
   mutate(index = 1:length(color_sto)) |>
   slice_max(color_sto, n = 3) |>
   rownames_to_column("genes")
-top_3_sto_genes <- (top_3_sto$genes)
-sto_table <- select(hs, 
-       keys = top_3_sto_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_sto_genes <- as.data.frame(top_3_sto$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_sto_genes)
 
 # thyroid
 bias_corrected_thy <- bias_corrected |>
@@ -448,11 +414,9 @@ top_3_thy <- as.data.frame(color_thy) |>
   mutate(index = 1:length(color_thy)) |>
   slice_max(color_thy, n = 3) |>
   rownames_to_column("genes")
-top_3_thy_genes <- (top_3_thy$genes)
-thy_table <- select(hs, 
-       keys = top_3_thy_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_thy_genes <- as.data.frame(top_3_thy$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_thy_genes)
 
 # upper aerodigestive tract
 bias_corrected_uat <- bias_corrected |>
@@ -464,11 +428,9 @@ top_3_uat <- as.data.frame(color_uat) |>
   mutate(index = 1:length(color_uat)) |>
   slice_max(color_uat, n = 3) |>
   rownames_to_column("genes")
-top_3_uat_genes <- (top_3_uat$genes)
-uat_table <- select(hs, 
-       keys = top_3_uat_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_uat_genes <- as.data.frame(top_3_uat$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_uat_genes)
 
 # urinary tract
 bias_corrected_urine <- bias_corrected |>
@@ -480,123 +442,15 @@ top_3_urine <- as.data.frame(color_urine) |>
   mutate(index = 1:length(color_urine)) |>
   slice_max(color_urine, n = 3) |>
   rownames_to_column("genes")
-top_3_urine_genes <- (top_3_urine$genes)
-urine_table <- select(hs, 
-       keys = top_3_urine_genes,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
+top_3_urine_genes <- as.data.frame(top_3_urine$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes <- rbind(overall_genes, top_3_urine_genes)
 
-columns(org.Hs.eg.db)
+summarized_genes <- overall_genes |>
+  count(genes, sort = TRUE)
 
-# get the entrez ID for each of the genes
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("org.Hs.eg.db")
-
-hs <- org.Hs.eg.db
-symbols <- top_3_urine_genes
-
-select(hs, 
-       keys = symbols,
-       columns = c("ENTREZID", "SYMBOL"),
-       keytype = "SYMBOL")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-############################# FIGURE 2a ###############################
-
-data_2a <- read.csv("data/modules_d_0.5.csv")
-
-## DoRothEA data
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-
-BiocManager::install("dorothea")
-BiocManager::install("OmnipathR")
-
-library(dorothea)
-library(decoupleR)
-
-human_regulons <- decoupleR::get_dorothea(levels = c('A', 'B', 'C', 'D'))
-head(human_regulons)
-
-colnames(human_regulons)
-hr_source <- human_regulons$source
-hr_confidence <- vector(, nrow(human_regulons))
-for (i in 1:length(hr_confidence)) {
-  if (human_regulons$confidence[i] == "A") {
-    hr_confidence[i] <- 1
-  } else if(human_regulons$confidence[i] == "B") {
-    hr_confidence[i] <- 0.7
-  } else if(human_regulons$confidence[i] == "C") {
-    hr_confidence[i] <- 0.4
-  } else if(human_regulons$confidence[i] == "D") {
-    hr_confidence[i] <- 0.1
-  }
-}
-hr_target <- human_regulons$target
-
-dorothea_pairs <- bind_cols(hr_source, hr_target, hr_confidence)
-colnames(dorothea_pairs) <- c("source", "target", "confidence")
-
-
-## hu.MAP data
-hu.MAP <- read.csv("data/hu.MAP.pairsWprob", sep = '\t')
-
-## coxpres data
-coxpres <- read.csv("data/coxpres_db.csv", header = TRUE)
-coxpres_clean <- coxpres[ , -c(1)]
-rownames(coxpres_clean) <- row_col_names
-colnames(coxpres_clean) <- row_col_names
-
-diag(coxpres_clean) <- NA
-coxpres_clean[upper.tri(coxpres_clean, diag = TRUE)] <- NA
-
-# the following code was provided by ChatGPT because of memory constraints on my computer
-library(Matrix)
-library(data.table)
-library(parallel)
-
-output_file <- "triplets.csv"
-fwrite(data.table(gene1=character(), gene2=character(), score=numeric()),
-       output_file)  # create header
-
-# Step 3: Process each row one by one
-for (i in seq_len(nrow(coxpres_clean))) {
-  
-  # Extract row
-  row_vals <- coxpres_clean[i, ]
-  
-  # Identify columns with non-NA values
-  non_na_cols <- which(!is.na(row_vals))
-  
-  # Only proceed if there are valid entries
-  if (length(non_na_cols) > 0) {
-    # Create triplet table for this row
-    triplets <- data.table(
-      gene1 = rownames(coxpres_clean)[i],
-      gene2 = colnames(coxpres_clean)[non_na_cols],
-      score = row_vals[non_na_cols]
-    )
-    
-    # Immediately append to disk
-    fwrite(triplets, output_file, append = TRUE)
-  }
-  
-  # Free memory
-  rm(row_vals, triplets)
-  gc()
-}
-# end of code provided by ChatGPT for memory purposes
+gene_count_plot <- ggplot(data = summarized_genes,
+                          aes(x = reorder(genes, n), y = n)) +
+  geom_bar(stat = "identity", fill = "#ed2727") +
+  labs(title = "Genes Most Highly Co-Expressed Across Cancer Types",
+       x = "Genes", y = "Count") + coord_flip()
