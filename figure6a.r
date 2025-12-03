@@ -2,7 +2,8 @@ library(readr)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-library(janitor) 
+library(janitor)
+library(patchwork)
 
 # Read the TSV file
 df <- read_tsv("cancer_type_dependencies.tsv") %>%
@@ -72,10 +73,40 @@ p <- ggplot(plot_df, aes(x = CancerType, y = NegLogP)) +
   labs(
     x = NULL,
     y = expression(-log[10](P)),
-    title = "Differential essentiality of modules by tissue type"
+    title = "P-values for differential module essentiality"
   )
 
 print(p)
 
+# --- New Plot for FDR ---
+
+# Count significant modules (FDR < 0.05) for each cancer type
+significant_counts <- plot_df %>%
+  filter(FDR < 0.05) %>%
+  count(CancerType, name = "SignificantCount")
+
+# Create a bar plot of significant module counts
+p_fdr_bars <- ggplot(significant_counts, aes(x = CancerType, y = SignificantCount, fill = CancerType)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = SignificantCount), vjust = -0.5, size = 3.5) + # Add count labels
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) + # Ensure bars start at 0 and give space for labels
+  theme_minimal(base_size = 13) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 10),
+    legend.position = "none",
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(), # Remove vertical grid lines
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    axis.title.y = element_text(margin = margin(r = 10))
+  ) +
+  labs(
+    x = NULL,
+    y = "Number of Significant Modules",
+    title = "Count of Significant Modules per Cancer Type (FDR < 0.05)"
+  )
+
+print(p_fdr_bars)
+
 # Save figure
-ggsave("figure6a_alphabetized.png", plot = p, width = 10, height = 6, dpi = 300)
+combined_plot <- p / p_fdr_bars + plot_annotation(tag_levels = 'A')
+ggsave("figure6a_and_fdr.png", plot = combined_plot, width = 10, height = 12, dpi = 300)
