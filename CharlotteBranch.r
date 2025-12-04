@@ -5,10 +5,12 @@ install.packages("dplyr")
 install.packages("ggplot2")
 install.packages("tidyverse")
 install.packages("umap")
+install.packages("purrr")
 library("dplyr")
 library("ggplot2")
 library("tidyverse")
 library("umap")
+library("purrr")
 
 
 
@@ -174,7 +176,7 @@ ggplot(
            \n Genes Found in Lung Cancer Cell Lines")
 
 
-################# MY NEW FIGURE 7 #######################
+################# MY NEW FIGURE 7a #######################
 
 # autonomic ganglia
 bias_corrected_ag <- bias_corrected |>
@@ -454,3 +456,45 @@ gene_count_plot <- ggplot(data = summarized_genes,
   geom_bar(stat = "identity", fill = "#ed2727") +
   labs(title = "Genes Most Highly Co-Expressed Across Cancer Types",
        x = "Genes", y = "Count") + coord_flip()
+
+
+################# MY NEW FIGURE 7b #######################
+
+cluster1 <- data.frame(genes = c("MYC", "TAF5L"), clusters = 1)
+cluster2 <- data.frame(genes = c("EP300", "TADA2B", "MED1"), clusters = 2)
+cluster3 <- data.frame(genes = c("SCAP"), clusters = 3)
+cluster4 <- data.frame(genes = c("ATP1A1"), clusters = 4)
+cluster5 <- data.frame(genes = c("CDK6", "GRB2", "PTEN", "FERMT2", "EFR3A"),
+                       clusters = 5)
+cluster6 <- data.frame(genes = c("FURIN", "PSMB5", "VHL"), clusters = 6)
+cluster7 <- data.frame(genes = c("TSC2", "RB1CC1", "PPP2R1A", "KNTC1", "RB1",
+                       "CDKN1A"), clusters = 7)
+cluster8 <- data.frame(genes = c("RPL21"), clusters = 8)
+cluster9 <- data.frame(genes = c("TYMS", "ADSL"), clusters = 9)
+cluster10 <- data.frame(genes = c("CRKL", "YRDC"), clusters = 10)
+cluster11 <- data.frame(genes = c("TP53"), clusters = 11)
+cluster12 <- data.frame(genes = c("GPX4", "SEPHS2"), clusters = 12)
+cluster13 <- data.frame(genes = c("CHMP4B", "ELMO2", "RAB10"), clusters = 13)
+cluster14 <- data.frame(genes = c("NF2", "ITGAV", "TUBB"), clusters = 14)
+cluster15 <- data.frame(genes = c("RPP25L"), clusters = 15)
+cluster16 <- data.frame(genes = c("CDAN1"), clusters = 16)
+cluster17 <- data.frame(genes = c("PDCD10"), clusters = 17)
+
+cluster_list <- list(cluster1, cluster2, cluster3, cluster4, cluster5, cluster6,
+                     cluster7, cluster8, cluster9, cluster10, cluster11,
+                     cluster12, cluster13, cluster14, cluster15,
+                     cluster16, cluster17)
+df_join <- purrr::reduce(cluster_list, full_join)
+
+summarized_clusters <- df_join |>
+  count(clusters, sort = FALSE)
+
+gene_count_plot <- ggplot(data = summarized_clusters,
+                          aes(x = clusters, y = n)) +
+  geom_bar(stat = "identity", fill = c("red", "orange", "#838181", "#3a3737",
+                                       "yellow", "green", "blue", "#737070",
+                                       "purple", "red", "#abaaaa", "orange",
+                                       "yellow", "green", "#818080", "#484646",
+                                       "#737272")) +
+  labs(title = "Clusters Most Highly Co-Expressed Across Cancer Types",
+       x = "Clusters", y = "Count") + coord_flip()
