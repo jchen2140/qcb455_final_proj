@@ -491,10 +491,12 @@ summarized_clusters <- df_join |>
 
 gene_count_plot <- ggplot(data = summarized_clusters,
                           aes(x = clusters, y = n)) +
-  geom_bar(stat = "identity", fill = c("red", "orange", "#838181", "#3a3737",
-                                       "yellow", "green", "blue", "#737070",
-                                       "purple", "red", "#abaaaa", "orange",
-                                       "yellow", "green", "#818080", "#484646",
-                                       "#737272")) +
+  geom_bar(stat = "identity", fill = c("#fc8c8c", "#f1b13a", "#a29f9f",
+                                       "#605d5d", "#f3f36b", "#6dfb6d",
+                                       "#5681f9", "#a49d9d", "#c889ef",
+                                       "#fc8c8c", "#6d6b6b", "#f1b13a",
+                                       "#f3f36b", "#6dfb6d", "#818080",
+                                       "#484646", "#737272")) +
   labs(title = "Clusters Most Highly Co-Expressed Across Cancer Types",
-       x = "Clusters", y = "Count") + coord_flip()
+       x = "Clusters", y = "Count") + coord_flip() +
+       geom_text(aes(label = clusters), hjust = -1)
