@@ -176,7 +176,7 @@ ggplot(
            \n Genes Found in Lung Cancer Cell Lines")
 
 
-################# MY NEW FIGURE 7a #######################
+################# MY NEW FIGURE 7a/7c #######################
 
 # autonomic ganglia
 bias_corrected_ag <- bias_corrected |>
@@ -192,6 +192,14 @@ top_3_ag_genes <- (top_3_ag$genes)
 overall_genes <- as.data.frame(top_3_ag_genes) |>
   `colnames<-`(c("genes"))
 
+bottom_3_ag <- as.data.frame(color_ag) |>
+  mutate(index = 1:length(color_ag)) |>
+  slice_min(color_ag, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_ag_genes <- (bottom_3_ag$genes)
+overall_genes_bottom <- as.data.frame(bottom_3_ag_genes) |>
+  `colnames<-`(c("genes"))
+
 # bone
 top_3_bone <- as.data.frame(color_bone) |>
   mutate(index = 1:length(color_bone)) |>
@@ -200,6 +208,14 @@ top_3_bone <- as.data.frame(color_bone) |>
 top_3_bone_genes <- as.data.frame(top_3_bone$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_bone_genes)
+
+bottom_3_bone <- as.data.frame(color_bone) |>
+  mutate(index = 1:length(color_bone)) |>
+  slice_min(color_bone, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_bone_genes <- as.data.frame(bottom_3_bone$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_bone_genes)
 
 # breast
 bias_corrected_breast <- bias_corrected |>
@@ -215,6 +231,14 @@ top_3_breast_genes <- as.data.frame(top_3_breast$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_breast_genes)
 
+bottom_3_breast <- as.data.frame(color_breast) |>
+  mutate(index = 1:length(color_breast)) |>
+  slice_min(color_breast, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_breast_genes <- as.data.frame(bottom_3_breast$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_breast_genes)
+
 # central nervous system
 bias_corrected_cns <- bias_corrected |>
   select(contains("CENTRAL_NERVOUS_SYSTEM"))
@@ -228,6 +252,14 @@ top_3_cns <- as.data.frame(color_cns) |>
 top_3_cns_genes <- as.data.frame(top_3_cns$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_cns_genes)
+
+bottom_3_cns <- as.data.frame(color_cns) |>
+  mutate(index = 1:length(color_cns)) |>
+  slice_min(color_cns, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_cns_genes <- as.data.frame(bottom_3_cns$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_cns_genes)
 
 # endometrium
 bias_corrected_endo <- bias_corrected |>
@@ -243,6 +275,14 @@ top_3_endo_genes <- as.data.frame(top_3_endo$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_endo_genes)
 
+bottom_3_endo <- as.data.frame(color_endo) |>
+  mutate(index = 1:length(color_endo)) |>
+  slice_min(color_endo, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_endo_genes <- as.data.frame(bottom_3_endo$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_endo_genes)
+
 # hematopoietic and lymphoid tissue
 bias_corrected_hlt <- bias_corrected |>
   select(contains("HAEMATOPOIETIC_AND_LYMPHOID_TISSUE"))
@@ -256,6 +296,14 @@ top_3_hlt <- as.data.frame(color_hlt) |>
 top_3_hlt_genes <- as.data.frame(top_3_hlt$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_hlt_genes)
+
+bottom_3_hlt <- as.data.frame(color_hlt) |>
+  mutate(index = 1:length(color_hlt)) |>
+  slice_min(color_hlt, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_hlt_genes <- as.data.frame(bottom_3_hlt$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_hlt_genes)
 
 # kidney
 bias_corrected_kidney <- bias_corrected |>
@@ -271,6 +319,14 @@ top_3_kidney_genes <- as.data.frame(top_3_kidney$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_kidney_genes)
 
+bottom_3_kidney <- as.data.frame(color_kidney) |>
+  mutate(index = 1:length(color_kidney)) |>
+  slice_min(color_kidney, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_kidney_genes <- as.data.frame(bottom_3_kidney$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_kidney_genes)
+
 # large intestine
 bias_corrected_largeint <- bias_corrected |>
   select(contains("LARGE_INTESTINE"))
@@ -284,6 +340,14 @@ top_3_largeint <- as.data.frame(color_largeint) |>
 top_3_largeint_genes <- as.data.frame(top_3_largeint$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_largeint_genes)
+
+bottom_3_largeint <- as.data.frame(color_largeint) |>
+  mutate(index = 1:length(color_largeint)) |>
+  slice_min(color_largeint, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_largeint_genes <- as.data.frame(bottom_3_largeint$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_largeint_genes)
 
 # liver
 bias_corrected_liver <- bias_corrected |>
@@ -299,6 +363,14 @@ top_3_liver_genes <- as.data.frame(top_3_liver$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_liver_genes)
 
+bottom_3_liver <- as.data.frame(color_liver) |>
+  mutate(index = 1:length(color_liver)) |>
+  slice_min(color_liver, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_liver_genes <- as.data.frame(bottom_3_liver$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_liver_genes)
+
 # lung
 top_3_lung <- as.data.frame(color_lung) |>
   mutate(index = 1:length(color_lung)) |>
@@ -307,6 +379,14 @@ top_3_lung <- as.data.frame(color_lung) |>
 top_3_lung_genes <- as.data.frame(top_3_lung$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_lung_genes)
+
+bottom_3_lung <- as.data.frame(color_lung) |>
+  mutate(index = 1:length(color_lung)) |>
+  slice_min(color_lung, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_lung_genes <- as.data.frame(bottom_3_lung$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_lung_genes)
 
 # esophagus
 bias_corrected_eso <- bias_corrected |>
@@ -322,6 +402,14 @@ top_3_eso_genes <- as.data.frame(top_3_eso$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_eso_genes)
 
+bottom_3_eso <- as.data.frame(color_eso) |>
+  mutate(index = 1:length(color_eso)) |>
+  slice_min(color_eso, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_eso_genes <- as.data.frame(bottom_3_eso$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_eso_genes)
+
 # ovary
 bias_corrected_ovary <- bias_corrected |>
   select(contains("OVARY"))
@@ -335,6 +423,14 @@ top_3_ovary <- as.data.frame(color_ovary) |>
 top_3_ovary_genes <- as.data.frame(top_3_ovary$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_ovary_genes)
+
+bottom_3_ovary <- as.data.frame(color_ovary) |>
+  mutate(index = 1:length(color_ovary)) |>
+  slice_min(color_ovary, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_ovary_genes <- as.data.frame(bottom_3_ovary$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_ovary_genes)
 
 # pancreas
 bias_corrected_pan <- bias_corrected |>
@@ -350,6 +446,14 @@ top_3_pan_genes <- as.data.frame(top_3_pan$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_pan_genes)
 
+bottom_3_pan <- as.data.frame(color_pan) |>
+  mutate(index = 1:length(color_pan)) |>
+  slice_min(color_pan, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_pan_genes <- as.data.frame(bottom_3_pan$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_pan_genes)
+
 # pleura
 bias_corrected_ple <- bias_corrected |>
   select(contains("PLEURA"))
@@ -363,6 +467,14 @@ top_3_ple <- as.data.frame(color_ple) |>
 top_3_ple_genes <- as.data.frame(top_3_ple$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_ple_genes)
+
+bottom_3_ple <- as.data.frame(color_ple) |>
+  mutate(index = 1:length(color_ple)) |>
+  slice_min(color_ple, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_ple_genes <- as.data.frame(bottom_3_ple$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_ple_genes)
 
 # skin
 bias_corrected_skin <- bias_corrected |>
@@ -378,6 +490,14 @@ top_3_skin_genes <- as.data.frame(top_3_skin$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_skin_genes)
 
+bottom_3_skin <- as.data.frame(color_skin) |>
+  mutate(index = 1:length(color_skin)) |>
+  slice_min(color_skin, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_skin_genes <- as.data.frame(bottom_3_skin$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_skin_genes)
+
 # soft tissue
 bias_corrected_soft <- bias_corrected |>
   select(contains("SOFT_TISSUE"))
@@ -391,6 +511,14 @@ top_3_soft <- as.data.frame(color_soft) |>
 top_3_soft_genes <- as.data.frame(top_3_soft$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_soft_genes)
+
+bottom_3_soft <- as.data.frame(color_soft) |>
+  mutate(index = 1:length(color_soft)) |>
+  slice_min(color_soft, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_soft_genes <- as.data.frame(bottom_3_soft$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_soft_genes)
 
 # stomach
 bias_corrected_sto <- bias_corrected |>
@@ -406,6 +534,14 @@ top_3_sto_genes <- as.data.frame(top_3_sto$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_sto_genes)
 
+bottom_3_sto <- as.data.frame(color_sto) |>
+  mutate(index = 1:length(color_sto)) |>
+  slice_min(color_sto, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_sto_genes <- as.data.frame(bottom_3_sto$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_sto_genes)
+
 # thyroid
 bias_corrected_thy <- bias_corrected |>
   select(contains("THYROID"))
@@ -419,6 +555,14 @@ top_3_thy <- as.data.frame(color_thy) |>
 top_3_thy_genes <- as.data.frame(top_3_thy$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_thy_genes)
+
+bottom_3_thy <- as.data.frame(color_thy) |>
+  mutate(index = 1:length(color_thy)) |>
+  slice_min(color_thy, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_thy_genes <- as.data.frame(bottom_3_thy$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_thy_genes)
 
 # upper aerodigestive tract
 bias_corrected_uat <- bias_corrected |>
@@ -434,6 +578,14 @@ top_3_uat_genes <- as.data.frame(top_3_uat$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_uat_genes)
 
+bottom_3_uat <- as.data.frame(color_uat) |>
+  mutate(index = 1:length(color_uat)) |>
+  slice_min(color_uat, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_uat_genes <- as.data.frame(bottom_3_uat$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_uat_genes)
+
 # urinary tract
 bias_corrected_urine <- bias_corrected |>
   select(contains("URINARY_TRACT"))
@@ -448,13 +600,30 @@ top_3_urine_genes <- as.data.frame(top_3_urine$genes) |>
   `colnames<-`(c("genes"))
 overall_genes <- rbind(overall_genes, top_3_urine_genes)
 
-summarized_genes <- overall_genes |>
+bottom_3_urine <- as.data.frame(color_urine) |>
+  mutate(index = 1:length(color_urine)) |>
+  slice_min(color_urine, n = 3) |>
+  rownames_to_column("genes")
+bottom_3_urine_genes <- as.data.frame(bottom_3_urine$genes) |>
+  `colnames<-`(c("genes"))
+overall_genes_bottom <- rbind(overall_genes_bottom, bottom_3_urine_genes)
+
+
+summarized_genes_top <- overall_genes |>
+  count(genes, sort = TRUE)
+summarized_genes_bottom <- overall_genes_bottom |>
   count(genes, sort = TRUE)
 
-gene_count_plot <- ggplot(data = summarized_genes,
+gene_count_plot_top <- ggplot(data = summarized_genes_top,
                           aes(x = reorder(genes, n), y = n)) +
   geom_bar(stat = "identity", fill = "#ed2727") +
   labs(title = "Genes Most Highly Co-Expressed Across Cancer Types",
+       x = "Genes", y = "Count") + coord_flip()
+
+gene_count_plot_bottom <- ggplot(data = summarized_genes_bottom,
+                          aes(x = reorder(genes, n), y = n)) +
+  geom_bar(stat = "identity", fill = "#4545fc") +
+  labs(title = "Genes Least Co-Expressed Across Cancer Types",
        x = "Genes", y = "Count") + coord_flip()
 
 
