@@ -615,13 +615,13 @@ summarized_genes_bottom <- overall_genes_bottom |>
   count(genes, sort = TRUE)
 
 gene_count_plot_top <- ggplot(data = summarized_genes_top,
-                          aes(x = reorder(genes, n), y = n)) +
+                              aes(x = reorder(genes, n), y = n)) +
   geom_bar(stat = "identity", fill = "#ed2727") +
   labs(title = "Genes Most Highly Co-Expressed Across Cancer Types",
        x = "Genes", y = "Count") + coord_flip()
 
 gene_count_plot_bottom <- ggplot(data = summarized_genes_bottom,
-                          aes(x = reorder(genes, n), y = n)) +
+                                 aes(x = reorder(genes, n), y = n)) +
   geom_bar(stat = "identity", fill = "#4545fc") +
   labs(title = "Genes Least Co-Expressed Across Cancer Types",
        x = "Genes", y = "Count") + coord_flip()
@@ -637,7 +637,7 @@ cluster5 <- data.frame(genes = c("CDK6", "GRB2", "PTEN", "FERMT2", "EFR3A"),
                        clusters = 5)
 cluster6 <- data.frame(genes = c("FURIN", "PSMB5", "VHL"), clusters = 6)
 cluster7 <- data.frame(genes = c("TSC2", "RB1CC1", "PPP2R1A", "KNTC1", "RB1",
-                       "CDKN1A"), clusters = 7)
+                                 "CDKN1A"), clusters = 7)
 cluster8 <- data.frame(genes = c("RPL21"), clusters = 8)
 cluster9 <- data.frame(genes = c("TYMS", "ADSL"), clusters = 9)
 cluster10 <- data.frame(genes = c("CRKL", "YRDC"), clusters = 10)
@@ -668,4 +668,4 @@ gene_count_plot <- ggplot(data = summarized_clusters,
                                        "#484646", "#737272")) +
   labs(title = "Clusters Most Highly Co-Expressed Across Cancer Types",
        x = "Clusters", y = "Count") + coord_flip() +
-       geom_text(aes(label = clusters), hjust = -1)
+  geom_text(aes(label = clusters), hjust = -1)
