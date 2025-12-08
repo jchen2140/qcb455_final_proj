@@ -19,4 +19,6 @@ understanding about what these cell lines represented. Finally, the file omnipat
 to my VSCode locally during my coding when I was originally planning to replicate figure 2a rather than extend the analysis of the
 genes. I ultimately did not use this file, but I received several errors when I tried to delete it either locally or globally from
 VSCode or GitHub. I moved it to the .gitignore file so that it would not get in the way of the rest of my branch. However, it was
-not used and is not a component of this QCB455 final project.
+not used and is not a component of this QCB455 final project. The file "QCB455 Figure 7.txt" is the txt file containing the
+groupings of genes that I created myself. At first I uploaded it to VSCode, but then I decided to bring this information into
+VSCode in a different way. This file remains as a reference for me of the different clusters of genes I created.
