@@ -630,7 +630,8 @@ gene_count_plot_bottom <- ggplot(data = summarized_genes_bottom,
 ################# MY NEW FIGURE 7c #######################
 
 cluster1 <- data.frame(genes = c("MYC", "TAF5L"), clusters = 1)
-cluster2 <- data.frame(genes = c("EP300", "TADA2B", "MED1"), clusters = 2)
+cluster2 <- data.frame(genes = c("EP300", "TADA2B", "MED1",
+                                 "KEAP1"), clusters = 2)
 cluster3 <- data.frame(genes = c("SCAP"), clusters = 3)
 cluster4 <- data.frame(genes = c("ATP1A1"), clusters = 4)
 cluster5 <- data.frame(genes = c("CDK6", "GRB2", "PTEN", "FERMT2", "EFR3A"),
