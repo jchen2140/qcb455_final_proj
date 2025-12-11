@@ -1,0 +1,57 @@
+---
+title: "module_analysis"
+author: "Yubi Mamiya"
+date: "2025-12-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+# 1. Define the list of filenames
+file_names <- c("modules_d_0.2.csv", "modules_d_0.5.csv", "modules_d_0.9.csv")
+
+# Initialize counters and a list to collect all genes
+total_pvalue_count <- 0
+total_quality_count <- 0
+all_genes_list <- list()
+
+# 2. Loop through all files to process data and accumulate counts
+for (file in file_names) {
+  # Read the CSV file. stringsAsFactors = FALSE is crucial.
+  # We assume the P-value column is read as 'P.value' (R's convention for column names with '-').
+  data <- read.csv(file, stringsAsFactors = FALSE)
+
+  # --- Task 1: Count rows where P-value < 0.05 ---
+  # 'data$P.value < 0.05' creates a vector of TRUE/FALSE.
+  # 'sum()' treats TRUE as 1 and FALSE as 0, giving the total count.
+  p_count <- sum(data$P.value < 0.5, na.rm = TRUE)
+  total_pvalue_count <- total_pvalue_count + p_count
+
+  # --- Task 2: Count rows where Quality > 0.9 ---
+  q_count <- sum(data$Quality > 0.3, na.rm = TRUE)
+  total_quality_count <- total_quality_count + q_count
+
+  # --- Task 3 (Original): Collect gene names ---
+  genes <- unlist(strsplit(data$Members, " "))
+  all_genes_list <- append(all_genes_list, list(genes))
+}
+
+# 3. Final calculation for unique genes (from original request)
+all_genes <- unlist(all_genes_list)
+unique_gene_count <- length(unique(all_genes))
+
+# 4. Print all results
+cat("Total number of unique gene names across all files:", unique_gene_count, "\n")
+cat("Total number of rows with P-value < 0.5:", total_pvalue_count, "\n")
+cat("Total number of rows with Quality > 0.3:", total_quality_count, "\n")
+```
+
