@@ -33,7 +33,7 @@
 3. Run FinalProjectFig3.Rmd
    - **Make sure `GLS_p.npy`, `GLS_sign.npy`, and `modules_d_0.5.csv` are in the working directory**
      - `GLS_sign.npy` is the matrix of GLS sign values for every pair of genes
-     - `modules_d_0.5.csv` contains a "Members" column with a space-separated list of genes detected at density parameter d = 0.5 for each module
+     - `modules_d_0.5.csv` contains a "Members" column with a space-separated list of genes detected at density parameter d = 0.5 for each module. An earlier step in our project outputted this
    - Loads ClusterONE modules for clusters 512 (mTORC1-like) and 1434 (autophagy-like)
    - Maps module genes using `genes.txt` to their corresponding p-value and sign
    - For each gene pair, calculates the signed edge weight $w_{ij} = -\log_{10}(p_{ij}) \cdot s_{ij}$
