@@ -1,4 +1,4 @@
-# put in terminal "git pull" every time I write code BEFORE I START
+# all code in this document was written by Charlotte Cox
 
 # install the necessary packages
 install.packages("dplyr")
