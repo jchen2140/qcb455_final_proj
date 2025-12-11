@@ -10,9 +10,9 @@
 
 ### Outputs
 - **fig3a.jpg** — mTORC1-like module (our Figure 3a / original Figure 3a)  
-- **fig3c.jpg** — Autophagy-like module (our Figure 3b / original Figure 3c)  
-- **gls_fig1b.png** — GLS p-value histogram (our Figure 2 / original Figure 1b)  
-- **pearson_fig1b.png** — Pearson p-value histogram (our Figure 2 / original Figure 1b)
+- **fig3b.jpg** — Autophagy-like module (our Figure 3b / original Figure 3c)  
+- **gls_fig2.png** — GLS p-value histogram (our Figure 2 / original Figure 1b)  
+- **pearson_fig2.png** — Pearson p-value histogram (our Figure 2 / original Figure 1b)
 
 ### How to reproduce figures
 1. Run gene_pairs.py
