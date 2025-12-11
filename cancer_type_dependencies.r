@@ -1,3 +1,5 @@
+# Written by Jessie Chen
+
 # cancer_type_dependencies.R
 library(tidyverse)
 library(MASS)
