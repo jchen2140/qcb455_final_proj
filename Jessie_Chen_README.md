@@ -169,4 +169,4 @@ This matrix is used by downstream scripts such as `cancer_type_dependencies.r`.
 
 ## Output
 
-* **figure6a_alphabetized.png**: plot showing differential essentiality of modules across top cancer types.
+* **figure6a_and_fdr.png**: plot showing differential essentiality of modules across top cancer types and count of significant modules per tissue type.
