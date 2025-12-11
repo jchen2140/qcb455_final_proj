@@ -277,7 +277,7 @@ pal <- c(
 set.seed(1)
 lay <- layout_with_fr(g, weights = E(g)$w_layout)
 
-fig3c  <- ggraph(g, layout = "manual", x = lay[,1], y = lay[,2]) +
+fig3b  <- ggraph(g, layout = "manual", x = lay[,1], y = lay[,2]) +
   geom_edge_link(
     aes(edge_width = w_plot),
     colour = "grey75", alpha = 0.45, lineend = "round",
@@ -300,8 +300,8 @@ fig3c  <- ggraph(g, layout = "manual", x = lay[,1], y = lay[,2]) +
   ggtitle(sprintf("Autophagy-like module (cluster %d)", module_id)) +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
-fig3c
+fig3b
 
 # Save figure as jpg
-ggsave("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/fig3b.jpg", plot = fig3c, width = 6, height = 4, dpi = 300)
+ggsave("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/fig3b.jpg", plot = fig3b, width = 6, height = 4, dpi = 300)
 ```
