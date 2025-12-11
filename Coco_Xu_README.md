@@ -16,7 +16,7 @@
 
 ### How to reproduce figures
 1. Run gene_pairs.py
-   - The script is not in this repo as I did not right it but can be found be found [here]([https://github.com/kundajelab/coessentiality)])
+   - The script is not in this repo as I did not right it but can be found be found [here](https://github.com/kunjadelab/coessentiality)
    - This script was provided in the paper to compute Pearson correlation p-values used for our Figure 2, outputting the files `Pearson_p.npy` and `Pearson_sign.npy`
    - To compute the Pearson p-values, I replaced the covariance matrix with an identity matrix
      - Keeping the covariance matrix computes the GLS p-values, which are also used for Figure 2 
