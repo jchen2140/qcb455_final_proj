@@ -7,10 +7,6 @@
   - Generates **Figures 3a** and **3b** in our project:  
     - Figure 3a corresponds to **Figure 3a** in the original paper  
     - Figure 3b corresponds to **Figure 3c** in the original paper
- 
-- **gene_pairs.py**  
-  - Computes **Pearson correlation p-values** by using an identity matrix  
-  - Output from this script is used for the Pearson portion of our **Figure 2**
 
 ### Outputs
 - **fig3a.jpg** — mTORC1-like module (our Figure 3a / original Figure 3a)  
@@ -23,15 +19,15 @@
    - This script was provided in the paper to compute Pearson correlation p-values used for our Figure 2, outputting the files `Pearson_p.npy` and `Pearson_sign.npy`
    - To compute the Pearson p-values, I replaced the covariance matrix with an identity matrix
      - Keeping the covariance matrix computes the GLS p-values, which are also used for Figure 2 
-2. Run FinalProjectFig1.Rmd
+2. Run FinalProjectFig2.Rmd
    - **Make sure `GLS_p.npy` and `Pearson_p.npy` are in the working directory**
-     - `GLS_p.npy` is the matrix of GLS p-values between every pair of genes. This was outputted by an earlier step in our project but can recreated using `gene_pairs.py` if the identity matrix is replaced with a covariance matrix
+     - `GLS_p.npy` is the matrix of GLS p-values between every pair of genes. An earlier step in our project outputted this, but it can be recreated using `gene_pairs.py` if the identity matrix is replaced with a covariance matrix
      - Pearson_p.npy is the matrix of Pearson p-values between every pair of genes. This is outputted by `gene_pairs.py`
    - Extracts the **strict lower triangle** of each matrix
    - Filters to finite p-values between 0 and 1
    - Creates separate histograms for GLS and Pearson p-values
    - Uses 100 bins over [0, 1], draws a red vertical line at the median p-value, and annotates each plot with the median
-   - Finally, saves **`gls_fig1b.jpg`** and **`pearson_fig1b.jpg`**.
+   - Finally, saves **`gls_fig2.jpg`** and **`pearson_fig2.jpg`**.
      - These together form **Figure 2** in our project (corresponding to **Figure 1b** in the original paper)
 3. Run FinalProjectFig3.Rmd
    - **Make sure `GLS_p.npy`, `GLS_sign.npy`, and `modules_d_0.5.csv` are in the working directory**
@@ -50,4 +46,4 @@
      - colors nodes by **protein complex** membership
      - uses shapes (circle vs square) to distinguish known vs newly identified pathway members
      - adds gene labels
-  - Finally, the figure is saved as **`fig3a.jpg`** or **`fig3c.jpg`**.
+  - Finally, the figure is saved as **`fig3a.jpg`** or **`fig3b.jpg`**.
