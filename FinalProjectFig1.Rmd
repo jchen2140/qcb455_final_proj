@@ -1,0 +1,78 @@
+---
+title: "FinalProjectFig2"
+output: html_document
+date: "2025-11-12"
+---
+
+```{r}
+# Written by Coco Xu 
+
+if (!requireNamespace("RcppCNPy", quietly = TRUE)) install.packages("RcppCNPy")
+if (!requireNamespace("ggplot2",  quietly = TRUE)) install.packages("ggplot2")
+
+library(RcppCNPy)
+library(ggplot2)
+
+# load p-value matrices
+pearson_mat <- npyLoad("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/Pearson_p.npy")
+gls_mat     <- npyLoad("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/GLS_p.npy")
+
+# extract strict lower triangles
+pearson_p <- pearson_mat[lower.tri(pearson_mat, diag = FALSE)]
+gls_p     <- gls_mat[lower.tri(gls_mat, diag = FALSE)]
+
+# keep only finite 0–1 values
+keep <- function(x) x[is.finite(x) & x >= 0 & x <= 1]
+
+df_pearson <- data.frame(p = keep(pearson_p))
+df_gls     <- data.frame(p = keep(gls_p))
+
+pearson_median <- median(df_pearson$p)
+gls_median     <- median(df_gls$p)
+
+# pearson histogram
+pearson_y_top <- max(table(cut(df_pearson$p, breaks = seq(0, 1, length.out = 101))))
+
+pearson_plot <- ggplot(df_pearson, aes(x = p)) +
+  geom_histogram(breaks = seq(0, 1, length.out = 101),
+                 fill = "steelblue", color = "white", na.rm = TRUE) +
+  geom_vline(xintercept = pearson_median, color = "red", linewidth = 1) +
+  annotate("text",
+           x = pearson_median,
+           y = pearson_y_top * 0.95,
+           label = paste0("Median = ", signif(pearson_median, 2)),
+           color = "red",
+           size = 4,
+           hjust = -0.1) +
+  scale_x_continuous(name = "P-values", limits = c(0, 1)) +
+  scale_y_continuous(name = "Number of gene pairs") +
+  ggtitle("Pearson") +
+  theme_classic()
+
+print(pearson_plot)
+ggsave("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/pearson_fig2.png",
+       pearson_plot, width = 6, height = 4, dpi = 300)
+
+# gls histogram
+gls_y_top <- max(table(cut(df_gls$p, breaks = seq(0, 1, length.out = 101))))
+
+gls_plot <- ggplot(df_gls, aes(x = p)) +
+  geom_histogram(breaks = seq(0, 1, length.out = 101),
+                 fill = "steelblue", color = "white", na.rm = TRUE) +
+  geom_vline(xintercept = gls_median, color = "red", linewidth = 1) +
+  annotate("text",
+           x = gls_median,
+           y = gls_y_top * 0.95,
+           label = paste0("Median = ", signif(gls_median, 2)),
+           color = "red",
+           size = 4,
+           hjust = -0.1) +
+  scale_x_continuous(name = "P-values", limits = c(0, 1)) +
+  scale_y_continuous(name = "Number of gene pairs") +
+  ggtitle("GLS") +
+  theme_classic()
+
+print(gls_plot)
+ggsave("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/gls_fig2.png",
+       gls_plot, width = 6, height = 4, dpi = 300)
+```
