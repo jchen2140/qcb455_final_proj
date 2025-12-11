@@ -1,4 +1,4 @@
-# Written by Jessie Chen
+# Written by Jessie Chen (adapted from load_screens.py)
 
 library(tidyverse)
 
