@@ -1,4 +1,4 @@
-# Written by Jessie Chen
+# Written by Jessie Chen (adapted from cancer_type_dependencies.py)
 
 # cancer_type_dependencies.R
 library(tidyverse)
