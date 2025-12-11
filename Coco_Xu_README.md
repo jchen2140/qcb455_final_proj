@@ -22,7 +22,7 @@
 2. Run FinalProjectFig2.Rmd
    - **Make sure `GLS_p.npy` and `Pearson_p.npy` are in the working directory**
      - `GLS_p.npy` is the matrix of GLS p-values between every pair of genes. An earlier step in our project outputted this, but it can be recreated using `gene_pairs.py` if the identity matrix is replaced with a covariance matrix
-     - Pearson_p.npy is the matrix of Pearson p-values between every pair of genes. This is outputted by `gene_pairs.py`
+     - `Pearson_p.npy` is the matrix of Pearson p-values between every pair of genes. This is outputted by `gene_pairs.py`
    - Extracts the **strict lower triangle** of each matrix
    - Filters to finite p-values between 0 and 1
    - Creates separate histograms for GLS and Pearson p-values
