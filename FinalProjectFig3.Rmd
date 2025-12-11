@@ -1,0 +1,307 @@
+---
+title: "FinalProjectFig3"
+output: html_document
+date: "2025-11-07"
+---
+
+```{r}
+# Written by Coco Xu
+
+# Fig. 3a
+#
+# install packages
+packages <- c("readr", "dplyr", "stringr", "igraph", "ggraph", "ggplot2", "scales", "RcppCNPy")
+missing <- packages[!packages %in% installed.packages()[, "Package"]]
+if (length(missing)) install.packages(missing, quiet = TRUE)
+lapply(packages, library, character.only = TRUE)
+
+# parse members
+parse_members <- function(x) {          
+  genes <- str_trim(unlist(str_split(x, "\\s+")))
+  genes[genes != ""]
+}
+
+# get genes for a given module 
+get_module_genes <- function(cluster_id) {
+  modules <- read_csv("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/modules_d_0.5.csv",
+                      show_col_types = FALSE)
+  row  <- filter(modules, Cluster == cluster_id)
+  if (nrow(row) == 0) stop(paste("Cluster", cluster_id, "not found"))
+  parse_members(row$Members[1])       
+}
+
+# filepaths
+base <- "/Users/cocoxu/Desktop/school/S5/QCB455/projectdata"
+gls_p     <- file.path(base, "GLS_p.npy")
+gls_sign  <- file.path(base, "GLS_sign.npy")
+genes <- file.path(base, "genes.txt")
+
+# choose module for fig 3a
+Cluster <- 512
+genes_mod_raw <- get_module_genes(Cluster)
+
+# order genes
+all_genes <- scan(genes, what = character(), quiet = TRUE)
+mod_up  <- toupper(genes_mod_raw)
+all_up  <- toupper(all_genes)
+map_idx <- match(mod_up, all_up)
+
+if (anyNA(map_idx)) {
+  missing <- genes_mod_raw[is.na(map_idx)]
+  message("Unmapped genes (first few): ", paste(head(missing, 10), collapse = ", "),
+          if (length(missing) > 10) " …" else "")
+}
+
+keep      <- !is.na(map_idx)
+genes_mod <- genes_mod_raw[keep]
+map_idx   <- map_idx[keep]
+
+# build weights
+pvals <- npyLoad(gls_p)     
+signs <- npyLoad(gls_sign)  
+mod_pvals <- pvals[map_idx, map_idx, drop = FALSE]
+mod_signs <- signs[map_idx, map_idx, drop = FALSE]
+
+weights  <- -log10(mod_pvals) * mod_signs
+diag(weights) <- 0
+
+# edge selection
+p_cut <- 1e-5       
+top_neighbors  <- 4      
+
+keep_mat <- (mod_pvals < p_cut)
+
+for (i in seq_len(nrow(weights))) {
+  scores <- weights[i, ]                     
+  scores[!is.finite(scores)] <- -Inf         
+  if (all(!is.finite(scores))) next          
+
+  top_idx <- order(scores, decreasing = TRUE)[
+    seq_len(min(top_neighbors, sum(is.finite(scores))))
+  ]
+
+  keep_mat[i, top_idx] <- TRUE              
+}
+
+keep_mat <- keep_mat | t(keep_mat)
+
+sel <- which(keep_mat & upper.tri(keep_mat), arr.ind = TRUE)
+edges_df <- tibble(
+  src    = genes_mod[sel[, 1]],
+  dst    = genes_mod[sel[, 2]],
+  weight = weights[sel]
+)
+
+# graph
+g <- graph_from_data_frame(edges_df, directed = FALSE,
+                           vertices = tibble(name = genes_mod))
+
+E(g)$w_signed <- E(g)$weight
+
+# positive weights for grap
+w_layout <- abs(E(g)$w_signed)
+eps <- 1e-5
+w_layout[!is.finite(w_layout) | w_layout <= 0] <- eps
+E(g)$w_layout <- w_layout
+
+w_abs <- abs(E(g)$w_signed)
+E(g)$w_plot <- scales::rescale(w_abs, to = c(0.4, 2.2))
+
+# colors
+by_complex <- list(
+  GATOR2    = c("MIOS","WDR24","WDR59","SEH1L","SEC13"),
+  GATOR1    = c("NPRL2","NPRL3","DEPDC5"),
+  KICSTOR   = c("SZT2","KPTN","ITFG2","C12ORF66"),
+  Ragulator = c("LAMTOR1","LAMTOR2","LAMTOR3","LAMTOR4"),
+  Rag_GTPases = c("RRAGA","RRAGC"),
+  HOPS_CORVET = c("VPS39"),
+  FLCN      = c("FLCN","FNIP1"),
+  TSC       = c("DDIT4", "TSC1","TSC2","TBC1D7"),
+  MTOR      = c("MTOR","MLST8")
+)
+sym_to_complex <- unlist(lapply(names(by_complex), function(k){
+  setNames(rep(k, length(by_complex[[k]])), by_complex[[k]])
+}))
+V(g)$complex_uni <- sym_to_complex[V(g)$name]
+V(g)$complex_uni[is.na(V(g)$complex_uni)] <- "Other"
+
+label_whitelist_fig3a <- c(
+  "MIOS","WDR24","WDR59","SEH1L","SEC13",
+  "NPRL2","NPRL3","DEPDC5",
+  "SZT2","KPTN","ITFG2","C12ORF66",
+  "LAMTOR1","LAMTOR2","LAMTOR3","LAMTOR4",
+  "RRAGA","RRAGC","VPS39",
+  "FLCN","FNIP1",
+  "DDIT4","TSC1","TSC2","TBC1D7",
+  "MTOR","MLST8"
+)
+V(g)$label <- ifelse(V(g)$name %in% label_whitelist_fig3a, V(g)$name, "")
+
+pal <- c(
+  GATOR2="#f94144", GATOR1="#f3722c", KICSTOR="#90be6d",
+  Rag_GTPases="#92C5DE", Ragulator="#43aa8b", FLCN="#9a3dff",
+  HOPS_CORVET="#B53389", TSC="#9b5de5", MTOR="#277da1", `Other`="grey85"
+)
+
+# plot
+is_white <- V(g)$name %in% label_whitelist_fig3a
+set.seed(1)
+lay <- layout_with_fr(g, weights = E(g)$w_layout)
+
+fig3a <- ggraph(g, layout = "manual", x = lay[,1], y = lay[,2]) +
+  geom_edge_link(
+    aes(edge_width = w_plot),
+    colour = "grey75", alpha = 0.45, lineend = "round",
+    show.legend = FALSE
+  ) +
+  scale_edge_width(range = c(0.3, 3), guide = "none") +
+
+  geom_node_point(
+    aes(fill = V(g)$complex_uni, shape = is_white),
+    size = 4.3, colour = "grey20", stroke = 0.35
+  ) +
+  scale_shape_manual(values = c(`TRUE` = 21, `FALSE` = 22), guide = "none") +
+  scale_fill_manual(values = pal, name = "Complex") +
+  guides(fill = guide_legend(override.aes = list(shape = 21, size = 5,
+                                                 colour = "grey20", stroke = 0.35))) +
+
+  geom_node_text(aes(label = V(g)$name), repel = TRUE, size = 3.1) +
+
+  theme_void(base_size = 11) +
+  ggtitle(sprintf("mTORC1-like module (cluster %d)", Cluster)) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+fig3a
+
+# Save figure as jpg
+ggsave("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/fig3a.jpg", plot = fig3a, width = 6, height = 4, dpi = 300)
+```
+```{r}
+# Written by Coco Xu
+
+# Fig. 3c
+#
+# choose module
+module_id <- 1434 
+genes_mod_raw <- get_module_genes(module_id)
+
+# order genes
+all_genes <- scan(genes, what = character(), quiet = TRUE)
+mod_up  <- toupper(genes_mod_raw)
+all_up  <- toupper(all_genes)
+map_idx <- match(mod_up, all_up)
+
+if (anyNA(map_idx)) {
+  missing <- genes_mod_raw[is.na(map_idx)]
+  message("Unmapped genes (first few): ",
+          paste(head(missing, 10), collapse = ", "),
+          if (length(missing) > 10) " …" else "")
+}
+keep      <- !is.na(map_idx)
+genes_mod <- genes_mod_raw[keep]
+map_idx   <- map_idx[keep]
+
+# build weights
+pvals     <- npyLoad(gls_p)
+signs     <- npyLoad(gls_sign)
+mod_pvals <- pvals[map_idx, map_idx, drop = FALSE]
+mod_signs <- signs[map_idx, map_idx, drop = FALSE]
+weights   <- -log10(mod_pvals) * mod_signs
+diag(weights) <- 0
+
+# edge selection
+p_cut         <- 1e-5
+top_neighbors <- 8
+
+keep_mat <- (mod_pvals < p_cut)
+for (i in seq_len(nrow(weights))) {
+  scores <- weights[i, ]
+  scores[!is.finite(scores)] <- -Inf
+  if (all(!is.finite(scores))) next
+  k <- min(top_neighbors, sum(is.finite(scores)))
+  top_idx <- order(scores, decreasing = TRUE)[seq_len(k)]
+  keep_mat[i, top_idx] <- TRUE
+}
+keep_mat <- keep_mat | t(keep_mat)
+
+sel <- which(keep_mat & upper.tri(keep_mat), arr.ind = TRUE)
+edges_df <- tibble(
+  src    = genes_mod[sel[, 1]],
+  dst    = genes_mod[sel[, 2]],
+  weight = weights[sel]
+)
+
+# graph
+g <- graph_from_data_frame(edges_df, directed = FALSE,
+                           vertices = tibble(name = genes_mod))
+
+E(g)$w_signed <- E(g)$weight
+eps <- 1e-6
+E(g)$w_layout <- pmax(abs(E(g)$w_signed), eps)
+
+w_abs <- abs(E(g)$w_signed)
+E(g)$w_plot <- scales::rescale(w_abs, to = c(0.4, 2.2))
+
+# colors
+by_complex <- list(
+  ULK1_kinase = c("ULK1","ATG13","ATG101","RB1CC1"),
+  PI3K = c("BECN1","PIK3C3","PIK3R4","ATG14","UVRAG"),
+  LC3_conj = c("ATG4B","ATG7","ATG3","ATG10","ATG5","ATG12","ATG16L1"),
+  PI3P_eff = c("WIPI2"),
+  Phagophore = c("ATG9A"),
+  Lysosome = c("EPG5")
+)
+
+sym_to_complex <- unlist(lapply(names(by_complex), function(k){
+  setNames(rep(k, length(by_complex[[k]])), by_complex[[k]])
+}))
+V(g)$complex_uni <- sym_to_complex[V(g)$name]
+V(g)$complex_uni[is.na(V(g)$complex_uni)] <- "Other"
+
+label_whitelist_fig <- unique(unname(unlist(by_complex)))
+V(g)$label <- V(g)$name
+is_white <- V(g)$name %in% label_whitelist_fig
+
+pal <- c(
+  ULK1_kinase  = "#7B3294",
+  PI3K         = "#C2A5CF",
+  LC3_conj     = "#A6DBA0",
+  LC3s         = "#1B7837",
+  PI3P_eff     = "#036C5f",
+  Phagophore   = "#92C5DE",
+  Lysosome     = "#2166AC",
+  `Other`      = "grey85"
+)
+
+# plot
+set.seed(1)
+lay <- layout_with_fr(g, weights = E(g)$w_layout)
+
+fig3c  <- ggraph(g, layout = "manual", x = lay[,1], y = lay[,2]) +
+  geom_edge_link(
+    aes(edge_width = w_plot),
+    colour = "grey75", alpha = 0.45, lineend = "round",
+    show.legend = FALSE
+  ) +
+  scale_edge_width(range = c(0.3, 3), guide = "none") +
+
+  geom_node_point(
+    aes(fill = V(g)$complex_uni, shape = is_white),
+    size = 4.3, colour = "grey20", stroke = 0.35
+  ) +
+  scale_shape_manual(values = c(`TRUE` = 21, `FALSE` = 22), guide = "none") +
+  scale_fill_manual(values = pal, name = "Complex") +
+  guides(fill = guide_legend(override.aes = list(shape = 21, size = 5,
+                                                 colour = "grey20", stroke = 0.35))) +
+
+  geom_node_text(aes(label = V(g)$name), repel = TRUE, size = 3.1) +
+
+  theme_void(base_size = 11) +
+  ggtitle(sprintf("Autophagy-like module (cluster %d)", module_id)) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+fig3c
+
+# Save figure as jpg
+ggsave("/Users/cocoxu/Desktop/school/S5/QCB455/projectdata/fig3c.jpg", plot = fig3c, width = 6, height = 4, dpi = 300)
+```
