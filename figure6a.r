@@ -1,4 +1,5 @@
 # Written by Jessie Chen
+
 library(readr)
 library(dplyr)
 library(tidyr)
@@ -79,7 +80,7 @@ p <- ggplot(plot_df, aes(x = CancerType, y = NegLogP)) +
 
 print(p)
 
-# --- New Plot for FDR ---
+# FDR Plot (module counts per tissue type)
 
 # Count significant modules (FDR < 0.05) for each cancer type
 significant_counts <- plot_df %>%
