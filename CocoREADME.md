@@ -1,5 +1,5 @@
 ### RMarkdown Files Overview
-- **FinalProjectFig1.Rmd**  
+- **FinalProjectFig2.Rmd**  
   - Generates **Figure 2** (corresponds to **Figure 1b** in the original paper) 
   - Compares GLS vs. Pearson p-value distributions
 
@@ -20,7 +20,9 @@
 
 ### How to reproduce figures
 1. Run gene_pairs.py
-   - This generates the Pearson p-values used for our Figure 2, outputting the files `Pearson_p.npy` and `Pearson_sign.npy`
+   - This script was provided in the paper to compute Pearson correlation p-values used for our Figure 2, outputting the files `Pearson_p.npy` and `Pearson_sign.npy`
+   - To compute the Pearson p-values, I replaced the covariance matrix with an identity matrix
+     - Keeping the covariance matrix computes the GLS p-values, which are also used for Figure 2 
 2. Run FinalProjectFig1.Rmd
    - **Make sure `GLS_p.npy` and `Pearson_p.npy` are in the working directory**
      - `GLS_p.npy` is the matrix of GLS p-values between every pair of genes. This was outputted by an earlier step in our project but can recreated using `gene_pairs.py` if the identity matrix is replaced with a covariance matrix
