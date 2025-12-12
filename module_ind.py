@@ -1,8 +1,11 @@
+# Written by Yubi
+# Used for data analysis to visualize and understand biological function of modules
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
 # --- Configuration ---
-COORDINATE_FILE = 'vizdf.tsv'       # Placeholder name for the file with hUMAP coordinates
+COORDINATE_FILE = 'vizdf.tsv' 
 MODULE_FILE = 'Supplementary_Data_2.xlsx' # Name of the Excel file
 # YUBI: adjust parameter to target specific module
 TARGET_MODULE = 2067
