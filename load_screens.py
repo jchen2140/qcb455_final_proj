@@ -1,4 +1,4 @@
-# Written by Yubi
+# Adapted by Yubi to run on Python 3.14
 
 import pandas as pd
 from sklearn.decomposition import PCA
