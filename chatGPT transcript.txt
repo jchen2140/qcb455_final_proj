@@ -1,8 +1,9 @@
-This is the overall ChatGPT transcript Charlotte Cox used for this project. Note: lots of this was never actually used, as I changed the direction of one of my
+This is the overall ChatGPT/GenAI transcript the group used for this project. Note from Charlotte: lots of this was never actually used, as I changed the direction of one of my
 figures after having significant computer memory issues. Additionally, lots of this ChatGPT work was actually done to figure out how to use GitHub 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+Charlotte Cox:
 
 after running library(dorothea) library(decoupleR) human_regulons <- decoupleR::get_dorothea(levels = c('A', 'B', 'C', 'D')) head(human_regulons),
 I get the error Error in utils::packageVersion("OmnipathR") : there is no package called ‘OmnipathR’. Am I downloading outdated packages?
@@ -296,3 +297,15 @@ necessary, # especially if it merges an updated upstream into a topic branch. # 
 all changes and exit Vim
 
 Its not letting me type anything in the terminal
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Jessie Chen:
+- What is the best way to extract cancer types from celllines in R, specifically from a file with formatting like this:
+Cluster,Size,Density,Internal weight,External weight,Quality,P-value,Members
+- What should my FDR threshold be to extract the most significant tissue types, specifically top 20?
+- What kind of plot is this (uploaded a picture of reference figure 6a from original paper)?
+- What is the associated R library/function for jittered plots (name of plot received from previous prompt)?
+- What kind of chart is best for plotting co-essential module significance?
+- How do I run an R file on vscode?
+- What would the difference of FDR < 0.1 and FDR < 0.5 make?
