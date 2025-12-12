@@ -1,3 +1,5 @@
+# Adapted by Yubi to run on Python 3.14
+
 import numpy as np
 from load_screens import load_screens
 from scipy.special import stdtr
