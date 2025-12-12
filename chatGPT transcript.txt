@@ -1,0 +1,298 @@
+This is the overall ChatGPT transcript Charlotte Cox used for this project. Note: lots of this was never actually used, as I changed the direction of one of my
+figures after having significant computer memory issues. Additionally, lots of this ChatGPT work was actually done to figure out how to use GitHub 
+
+
+
+
+after running library(dorothea) library(decoupleR) human_regulons <- decoupleR::get_dorothea(levels = c('A', 'B', 'C', 'D')) head(human_regulons),
+I get the error Error in utils::packageVersion("OmnipathR") : there is no package called ‘OmnipathR’. Am I downloading outdated packages?
+
+Please do not provide any actual code for me, this is for my class which says we can use generative AI for guidance but we should write the code
+ourselves. I have been learning in R studio all semester and am now writing in VSCode in a shared github repository for a group project. However,
+I don't have experience in VSCode or github and need some help! I just uploaded a csv file into a folder within the repo (I think I did that?),
+but then when I try and reference the file, VScode doesn't show anything. Even just trying to head() the file draws a blank. However, I don't
+have any error messages. Can you please help me debug this?
+
+I am reading in a data.table() and there are a few lines that are missing entries. I am currently getting an error message because of this, but
+I really just want to fill those spots with NA. When I tried na.strings="NA" this didn't work
+
+I changed the code to na.strings=c("","NA") because there are commas indicating where the NA entries should be, just no values. However, I am
+getting the same error message "Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 2 did not have 4 elements"
+
+This is what the first two lines say. From my analysis, the commas are in the correct places and there shouldn't be an issue: Broad_ID,CCLE_Name,
+Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source ACH-000557,AML193_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE,AML-193,,,Leukemia,
+,Female,ATCC
+
+I changed the code to line_names <-read.table("data/DepMap-2018q3-celllines.csv", header = TRUE, sep = ",") and got the error message "Error in
+scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 248 did not have 9 elements" even though line 248 is ACH-000936,
+EFO27_OVARY,EFO-27,906852,1497,Ovarian Cancer,carcinoma,Female,NIBRI
+
+I added fill = TRUE and got this warning: In scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : EOF within quoted string Is this
+something I need to worry about
+
+I just went through the whole file and there are an even numbre of "
+
+I am trying to download a package in R using this code, but the error message says devtools doesn't exist.
+devtools::install_github("schochastics/networkdata") Is there another way to download this package?
+
+Does a green line next to the line of code I am trying to run in VScode mean that the code is currently running and just taking a moment? I ran
+autograph() with a large file so maybe it is just taking a while to plot
+
+I used autograph() to quickly visualize my data (~78 genes, ~17,000 genes) because I want to create a 2D network of the genes. However, the plot
+was just a straight line. Is there something wrong with the way I processed the data?
+
+I have one dataframe with values in it. I want to add a new column to this dataframe that has numbers from another data frame in it. However,
+to retrieve the numbers for this new column, I need to determine which values to pair up. This is a pseudo example very simplified. I have one
+dataframe with a column containing A, B, C, D and a second column containing 1, 2, 3, 4. I have another dataframe containing B, D, A, C and a
+second column containing red, purple, green, blue. I want the final data frame to have a column of A, B, C, D, a column of 1, 2, 3, 4, and a
+column of green, red, blue, purple.
+
+yes please, I would appreciate help with the logic behind SQL joins
+
+Is there a way to approach a left join if the column name I want to join "by" has a different name in each data frame?
+
+I ran the line cell_data_0.9_types <- left_join(cell_data_0.9, cell_modules, by = c("Members" = "Module genes")) because the first set of data
+has a column named "Members" where many of the values are the same (hopefully) as the values in "Modules genes". However, I get the error Error
+in left_join(): ! Join columns in y must be present in the data. ✖ Problem with Module genes.
+
+I have two columns I want to set as equal and they contain several strings in each of the entries in the column. However, one of the columns uses
+commas to separate strings within each of the entries, whereas the other column uses spaces to separate the strings within each entry. Is there
+a way to have R disregard this detail?
+
+there is no standard length for any of the entries. For example, one may be EHFD23, EHBJFD4546, EJHBFDKJ489643, and another entry within the same
+column that is using commas to delimit may be FDH343, JKD6354, HJFGDS3423, FDSJKHF23432, DFD2342, KJGDS90. I think this means I can't just separate the entries
+
+How can I standardize the columns so that neither contain commas or both contain commas?
+
+I am currently assigning color in ggplot2 based on a vector of numbers, and this is plotting points on a bluescale. Is there a way to change the color to 
+something besides blue, while still having the colors represent the vector that I feed in?
+
+Using geom_label, is there a descriptor to put into the fill argument so that the label has a translucent background?
+
+Please do not provide any written code for me, I just need help theoretically understanding how to approach the logic of this problem. I have databases
+called hu.MAP and DoRothEA which contain pairs of genes in the human genome that interact as well as scores rating these interactions. For each of these
+data sets, I am supposed to compare fold enrichment of the gene pairs in the database as compared to another database or as compared to GLS or Pearson's
+values from another database. This is mostly what the paper provides as general instructions: Following the strategy of Pan et al., we compared methods by
+considering their rankings on a per-gene basis. Specifically, we considered only the top N partners for each gene for N from 1 to 10, and looked at how
+enrichment varied as a function of N. We used the same version of hu.MAP benchmarked in Pan et al. (that is, hu.MAP v.1). Enrichments were calculated as the
+percentage of the top N gene pairs in the pathway or complex database, divided by the percentage of gene pairs found in the database. For instance, to
+calculate the enrichment of COXPRESdb in hu.MAP for N = 2, we found the top two co-expressed partners per gene according to COXPRESdb (N = 2 × 15,552 gene
+pairs), computed the percentage of these pairs that were part of the same hu.MAP complex, and divided by the percentage of the 15,552 × 15,552 gene pairs
+that were part of the same hu.MAP complex.
+
+I understand the theory of what I am doing, I am unsure of the steps needed to process the data to get it into the form that I am able to do these
+calculations. Do I need to do matrix operations?
+
+My DoRothEA data is currently only showing confidence in the form of a letter rather than a score, and a mode of regulation. Is there a way to convert this
+into the desired score? I already have it in the form of pairwise rows
+
+please provide citation for using ordinal ranking or published weights
+
+my predicted, not truth values, are presented in the form of a matrix with all genes present in both dimensions. I think I need help manipulating this matrix
+into a form that is similar to my other data that has the pairwise rows and each row has a score
+
+In my matrix, the row and column names are actually included as the entries in the first row and column, making operations weird. Is there a standard way
+to manipulate this?
+
+is it concerning that the matrix that should be a symmetrical matrix is 19815 x 19816?
+
+the original data I ran in was dim 19816 x 19817. I then ran the line coxpres_clean <- coxpres[-c(1), -c(1)] because the first row and column were the
+headers and row names. However, I am still stuck with the asymmetrical data
+
+yes, there was a blank corner cell. How do I strip this?
+
+I just removed the top row. Dimensions are now 19815 x 19817. However, even by removing the leftmost column I will still have asymmetrical data
+
+I just ran > subset(melt(mini_coxpres), na.rm = TRUE) because I have the upper triangle of my matrix set to NA and got the error message: Error: vector
+memory limit of 16.0 Gb reached, see mem.maxVSize(). Is there a way I can streamline this so I don't run into memory issues?
+
+When I just ran mini_coxpres <- as(coxpres_clean, "sparseMatrix"), I still ran into the memory issue
+
+Yes please, I would appreciate help not using giant amounts of memory
+
+To get the lower triangle, I currently do this. Can you guide me on good packages/functions that would work to go from this to triplet representation?
+diag(coxpres_clean) <- 0 coxpres_clean[upper.tri(coxpres_clean, diag = TRUE)] <- NA
+
+Won't it take a long time to run over all 320 million entries, even with an if loop saying it should skip anything with a 0 or NA in it? How long
+approximately will this code take to run?
+
+I just ran mini_coxpres <- which(!is.na(coxpres_clean), arr.ind = TRUE) and ran into the same memory error
+
+Help, I just opened an adroit window to try and have more memory to run this but the screen that opened won't run any code, it opened up a local
+vs code window not the main one I'm working on
+
+What do I need to write to get this code to work in my standard computer without adroit? I understand the logic but don't understand the actual =
+syntax that will allow it to work on my computer with the memory restraints
+
+What do I type to do step 2?
+
+I want to do approach #1. Would the code diag(coxpres_clean) <- NA coxpres_clean[upper.tri(coxpres_clean, diag = TRUE)]
+<- NA mini_coxpres <- as(coxpres_clean, "sparseMatrix") work?
+
+Ugh this doesn't work. still memory issues
+
+Could you please provide me a few key lines of code that I am missing?
+
+I am willing to write that ChatGPT provided these lines of code. Please provide lines of code and I will cite you appropriately.
+
+I am currently running the second above. It has been running about 10 mins. How long do you expect it to take?
+
+If I were to break it into chunks, would that cut the run time? How long would that take?
+
+Yes please. I will cite you so I don't mind copying the exact lines so I don't hurt my computer's memory. Please also tell me what
+command to type into my terminal so that I can force quit the run that is currently running.        yes please      yes please
+
+When I ran the above code (without accounting for RAM), I got this error: Error in rbindlist(chunk_triplets) : Item 3 has 4
+columns, inconsistent with item 2 which has 3 columns. To fill missing columns use fill=TRUE. >
+
+Where should I add the if (length(non_na_cols) > 0) { triplet_list[[i]] <- data.table( gene1 = rownames(chunk)[i],
+gene2 = colnames(chunk)[non_na_cols], score = row_vals[non_na_cols] ) } else { triplet_list[[i]] <- NULL # skip empty rows } in my code?
+
+chunk_size <- 1000 num_rows <- nrow(coxpres_clean) num_chunks <- ceiling(num_rows / chunk_size) num_cores <- detectCores() - 1 # leave 1 core free for
+(chunk_idx in seq_len(num_chunks)) { start_row <- (chunk_idx - 1) * chunk_size + 1 end_row <- min(chunk_idx * chunk_size, num_rows) chunk <-
+coxpres_clean[start_row:end_row, , drop = FALSE] # Parallel row processing chunk_triplets <- mclapply(seq_len(nrow(chunk)), function(i) { row_vals <-
+chunk[i, ] non_na_cols <- which(!is.na(row_vals)) if (length(non_na_cols) > 0) { data.table( gene1 = rownames(chunk)[i], gene2 = colnames(chunk)[non_na_cols],
+score = row_vals[non_na_cols] ) } else { triplet_list[[i]] <- NULL # skip empty rows }, mc.cores = num_cores) # Combine results from this chunk chunk_triplets
+<- rbindlist(chunk_triplets, fill = TRUE) # Step 5: Append to disk fwrite(chunk_triplets, "triplets.csv", append = (chunk_idx > 1)) # Free memory rm(chunk,
+chunk_triplets) gc() } I have a syntax issue when I added in the "else" to skip empty rows. It doesn't like the comma after else. Please correct the syntax issue
+
+even after all of this, I am still hitting memory limits on my computer
+
+How long do you think it would take to run?
+
+Yes please, then I will cite the code you provide       yes please
+
+Based on what you know, how long should this code take to run?
+
+After all of this I am still running into memory limits     yes please
+
+I am planning on going to sleep soon. How should I leave my computer so that VS code continues to run and I don't acidentally shut it down
+
+I think I have it all set up to not sleep, on a mac which settings should I check?
+
+I have a list of genes with their classic names (ie. MYC, TP53, etc.). I am hoping to get the GO terms for these genes. Is there an R package I should use to
+do this or do I need to manually look up each gene?
+
+I have a txt file where the first 4 rows are the headers, then each row is a new cell. Every fourth entry is a new row in the overall graph. Is there a way to read this into R?
+
+I adjusted the file so each row is one line of the data table and each entry is separated by a tab. There is a row of headers. I just ran the line annotated_genes <-
+read.csv("QCB455 Figure 7.txt", sep = "\t", header = TRUE) but got the error Error in read.table(file = file, header = header, sep = sep, quote = quote, :
+duplicate 'row.names' are not allowed
+
+This read everything into one column, with the very first word being the column name. I need to specify that there are four columns and the entries in teh columns are separated by
+tabs, whereas the rows are specificed by new lines
+
+I just ran annotated_genes <- read_tsv("QCB455 Figure 7.txt", col_names = TRUE, sep = "\t", row.names = NULL, check.names = FALSE) and got the error Error in
+read_tsv("QCB455 Figure 7.txt", col_names = TRUE, sep = "\t", : unused arguments (sep = "\t", row.names = NULL, check.names = FALSE)
+
+It still read into one column. This is the spacing (there should only be tabs) Gene Tissues Function Cluster MYC Autonomic Ganglia Oncogene: DNA-binding TF, cell cycle 1 TAF5L
+Central Nervous System DNA-binding TF, promoter TATA 1 EP300 Lung, Pancreas Tumor Suppressor: histone acetyltransferase 2 TADA2B Kidney Transcription activation 2
+
+When I ran readLines, I got ] "Gene" "\tTissues" "\tFunction"
+
+This is the output: "Gene" Warning message: In readLines("QCB455 Figure 7.txt") : incomplete final line found on 'QCB455 Figure 7.txt'
+
+I'm running this code but the title continues to not show up although the x and y axis labels do, and I am unable to read the X axis individual gene labels because they are
+horizontal and overlap. How can I rotate the labels so that they are at 45* angles? ggplot(data = overall_genes, aes(x = genes)) + geom_bar() + labs(main = "Genes Most
+Highly Co-Expressed Across Cancer Types", x = "Genes", y = "Count")
+
+I just got this error when trying to push and pull changes to vs code through git hub. This is the erorr at the last step where I try to sync my changes: Git: RPC failed;
+HTTP 400 curl 22 The requested URL returned error: 400
+
+How do I deleete if I accidentally tried to push a large file?
+
+(base) ~/Desktop/qcb455_final_proj> git status On branch Charlotte Your branch is ahead of 'origin/Charlotte' by 2 commits. (use "git push" to publish your local commits)
+nothing to commit, working tree clean
+
+I don't like using the terminal. Is there a way to do this through the vs code interface or the github interface?
+
+I think I have pushed the failure before, but in the Git website it doesn't showq any of the files I think are problematic. Additionally, could this be caused because
+I removed my gitignore file in the branch and also deleted several of the files I had in my branch in VS code?
+
+help I think i have too many branches?!?!?! 2025-12-03 18:33:39.666 [info] > git log --oneline --cherry Charlotte...Charlotte@{upstream} -- [20ms] 2025-12-03 18:33:39.789
+[info] > git pull --tags origin Charlotte [122ms] 2025-12-03 18:33:39.789 [info] From https://github.com/jchen2140/qcb455_final_proj * branch Charlotte -> FETCH_HEAD hint:
+You have divergent branches and need to specify how to reconcile them. hint: You can do so by running one of the following commands sometime before hint: your next pull:
+hint: hint: git config pull.rebase false # merge hint: git config pull.rebase true # rebase hint: git config pull.ff only # fast-forward only hint: hint: You can replace
+"git config" with "git config --global" to set a default hint: preference for all repositories. You can also pass --rebase, --no-rebase, hint: or --ff-only on the command
+line to override the configured default per hint: invocation. fatal: Need to specify how to reconcile divergent branches. 2025-12-03 18:33:39.794 [info] > git config --get
+commit.template [4ms] 2025-12-03 18:33:39.795 [info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)
+%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [4ms] 2025-12-03 18:33:39.800 [info] > git status -z -uall [4ms] 2025-12-03 18:33:40.947
+[info] > git config --get commit.template [3ms] 2025-12-03 18:33:40.951 [info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)
+%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [6ms] 2025-12-03 18:33:40.958 [info] > git status -z -uall [6ms]
+2025-12-03 18:33:41.039 [info] > git ls-files --stage -- /Users/charlottecox/Desktop/qcb455_final_proj/CharlotteBranch.r [5ms] 2025-12-03 18:33:41.046 [info] > git cat-file
+-s 4a618a0c8c8734403bd079a4d16925f70ad46802 [6ms] 2025-12-03 18:33:41.052 [info] > git show --textconv :CharlotteBranch.r [5ms]
+
+I tried the push pull rebase and got a messager that I need to clean my rtepository working tree. Help!
+
+I can't check any listed files from the repo because it is asking me to sync changes instead, not showing the files. I think I already staged them?!?!?!
+
+I see a big blue button that says sync changes
+
+2025-12-03 18:33:39.666 [info] > git log --oneline --cherry Charlotte...Charlotte@{upstream} -- [20ms] 2025-12-03 18:33:39.789 [info] > git pull --tags origin Charlotte
+[122ms] 2025-12-03 18:33:39.789 [info] From https://github.com/jchen2140/qcb455_final_proj * branch Charlotte -> FETCH_HEAD hint: You have divergent branches and need to
+specify how to reconcile them. hint: You can do so by running one of the following commands sometime before hint: your next pull: hint: hint: git config pull.rebase false #
+merge hint: git config pull.rebase true # rebase hint: git config pull.ff only # fast-forward only hint: hint: You can replace "git config" with "git config --global" to set
+a default hint: preference for all repositories. You can also pass --rebase, --no-rebase, hint: or --ff-only on the command line to override the configured default per hint:
+invocation. fatal: Need to specify how to reconcile divergent branches. 2025-12-03 18:33:39.794 [info] > git config --get commit.template [4ms] 2025-12-03 18:33:39.795 [info]
+> git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte
+refs/remotes/Charlotte [4ms] 2025-12-03 18:33:39.800 [info] > git status -z -uall [4ms] 2025-12-03 18:33:40.947 [info] > git config --get commit.template [3ms] 2025-12-03 18:33:40.951
+[info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte
+refs/remotes/Charlotte [6ms] 2025-12-03 18:33:40.958 [info] > git status -z -uall [6ms] 2025-12-03 18:33:41.039 [info] > git ls-files --stage -- /Users/charlottecox/Desktop/
+qcb455_final_proj/CharlotteBranch.r [5ms] 2025-12-03 18:33:41.046 [info] > git cat-file -s 4a618a0c8c8734403bd079a4d16925f70ad46802 [6ms] 2025-12-03 18:33:41.052 [info] > git show
+--textconv :CharlotteBranch.r [5ms] Help I got this error in vs code trying to upload stuff to git!
+
+I got this error when I tried to git push: (base) ~/Desktop/qcb455_final_proj> git push Enumerating objects: 18, done. Counting objects: 100% (18/18), done. Delta compression using up
+to 8 threads Compressing objects: 100% (15/15), done. error: RPC failed; HTTP 400 curl 22 The requested URL returned error: 400 send-pack: unexpected disconnect while reading sideband
+packet Writing objects: 86% (13/15), 40.00 KiB | 2.00 KiB/s
+
+When I ran git status I got: On branch Charlotte Your branch is ahead of 'origin/Charlotte' by 2 commits. (use "git push" to publish your local commits) nothing to commit, working tree clean
+
+How do I create a .gitignore folder to hide the large files?
+
+Can I remove the 2 things I have committed?
+
+I ran git reset HEAD~2
+
+I just got this even though I thought I had things working again: 2025-12-08 13:24:46.915 [info] > git config --get commit.template [3ms] 2025-12-08 13:24:46.916 [info] > git for-each-ref
+--format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [4ms]
+2025-12-08 13:24:46.921 [info] > git status -z -uall [4ms] 2025-12-08 13:24:48.174 [info] > git ls-files --stage -- /Users/charlottecox/Desktop/qcb455_final_proj/CharlotteBranch.r [8ms] 2025-12-08
+13:24:48.181 [info] > git cat-file -s b096903964b6b8c82bab866f7d1a6fc13b99e57d [6ms] 2025-12-08 13:24:48.188 [info] > git show --textconv :CharlotteBranch.r [5ms] 2025-12-08 13:24:50.613 [info] >
+git config --get commit.template [7ms] 2025-12-08 13:24:50.616 [info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%
+(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [8ms] 2025-12-08 13:24:50.624 [info] > git status -z -uall [7ms] 2025-12-08 13:25:38.297 [info] > git config --get
+commit.template [15ms] 2025-12-08 13:25:38.303 [info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref)
+--ignore-case refs/heads/Charlotte refs/remotes/Charlotte [21ms] 2025-12-08 13:25:38.310 [info] > git status -z -uall [7ms] 2025-12-08 13:25:52.215 [info] > git add -A -- . [21ms] 2025-12-08
+13:25:52.236 [info] > git -c user.useConfigOnly=true commit --quiet --allow-empty-message --file - [20ms] 2025-12-08 13:25:52.240 [info] > git config --get commit.template [3ms] 2025-12-08 13:25:52.245
+[info] > git config --get commit.template [4ms] 2025-12-08 13:25:52.249 [info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00
+%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [7ms] 2025-12-08 13:25:52.254 [info] > git status -z -uall [4ms] 2025-12-08 13:25:52.277 [info] > git config --get commit
+.template [4ms] 2025-12-08 13:25:52.278 [info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case
+refs/heads/Charlotte refs/remotes/Charlotte [4ms] 2025-12-08 13:25:52.282 [info] > git status -z -uall [3ms] 2025-12-08 13:25:53.393 [info] > git config --get commit.template [7ms] 2025-12-08 13:25:53.396
+[info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/
+Charlotte [9ms] 2025-12-08 13:25:53.403 [info] > git status -z -uall [6ms] 2025-12-08 13:25:53.492 [info] > git ls-files --stage -- /Users/charlottecox/Desktop/qcb455_final_proj/CharlotteBranch.r [6ms]
+2025-12-08 13:25:53.498 [info] > git cat-file -s b096903964b6b8c82bab866f7d1a6fc13b99e57d [5ms] 2025-12-08 13:25:53.507 [info] > git show --textconv :CharlotteBranch.r [5ms] 2025-12-08 13:25:55.221 [info]
+> git log --oneline --cherry Charlotte...Charlotte@{upstream} -- [12ms] 2025-12-08 13:25:55.349 [info] > git pull --tags origin Charlotte [127ms] 2025-12-08 13:25:55.350 [info] From https://github.com/
+jchen2140/qcb455_final_proj * branch Charlotte -> FETCH_HEAD hint: You have divergent branches and need to specify how to reconcile them. hint: You can do so by running one of the following commands sometime
+before hint: your next pull: hint: hint: git config pull.rebase false # merge hint: git config pull.rebase true # rebase hint: git config pull.ff only # fast-forward only hint: hint: You can replace "git
+config" with "git config --global" to set a default hint: preference for all repositories. You can also pass --rebase, --no-rebase, hint: or --ff-only on the command line to override the configured default
+per hint: invocation. fatal: Need to specify how to reconcile divergent branches. 2025-12-08 13:25:55.354 [info] > git config --get commit.template [3ms] 2025-12-08 13:25:55.355 [info] > git for-each-ref
+--format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [4ms] 2025-12-08
+13:25:55.360 [info] > git status -z -uall [4ms] 2025-12-08 13:25:56.607 [info] > git ls-files --stage -- /Users/charlottecox/Desktop/qcb455_final_proj/CharlotteBranch.r [8ms] 2025-12-08 13:25:56.614 [info] >
+git cat-file -s b096903964b6b8c82bab866f7d1a6fc13b99e57d [6ms] 2025-12-08 13:25:56.624 [info] > git show --textconv :CharlotteBranch.r [6ms] 2025-12-08 13:25:58.423 [info] > git config --get commit.template
+[8ms] 2025-12-08 13:25:58.426 [info] > git for-each-ref --format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/
+Charlotte refs/remotes/Charlotte [7ms] 2025-12-08 13:25:58.433 [info] > git status -z -uall [6ms] 2025-12-08 13:26:19.826 [info] > git for-each-ref --sort -committerdate --format %(refname) %(objectname) %(*objectname)
+[19ms] 2025-12-08 13:26:32.407 [info] > git checkout -q Charlotte_Final_clean [1394ms] 2025-12-08 13:26:32.413 [info] > git config --get commit.template [4ms] 2025-12-08 13:26:32.415 [info] > git for-each-ref
+--format=%(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte_Final_clean refs/remotes/Charlotte_Final_clean [4ms]
+2025-12-08 13:26:33.047 [info] > git status -z -uall [632ms] 2025-12-08 13:26:33.666 [info] > git ls-files --stage -- /Users/charlottecox/Desktop/qcb455_final_proj/CharlotteBranch.r [6ms] 2025-12-08 13:26:33.671
+[info] > git cat-file -s 05b7a66425a99dfd15e4dc6fb5d3ee46651a2fa9 [5ms] 2025-12-08 13:26:33.686 [info] > git show --textconv :CharlotteBranch.r [6ms] 2025-12-08 13:26:35.165 [info] > git for-each-ref --sort
+-committerdate --format %(refname) %(objectname) %(*objectname) [12ms] 2025-12-08 13:26:55.922 [info] > git for-each-ref --sort -committerdate --format %(refname) %(objectname) %(*objectname) [21ms] 2025-12-08
+13:26:59.279 [info] > git checkout -q Charlotte [1441ms] 2025-12-08 13:26:59.283 [info] > git config --get commit.template [3ms] 2025-12-08 13:26:59.287 [info] > git for-each-ref --format=%(refname)%00%(upstream:
+short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [6ms] 2025-12-08 13:26:59.292 [info] > git status -z -uall [5ms]
+2025-12-08 13:27:00.470 [info] > git ls-files --stage -- /Users/charlottecox/Desktop/qcb455_final_proj/CharlotteBranch.r [4ms] 2025-12-08 13:27:00.474 [info] > git cat-file -s b096903964b6b8c82bab866f7d1a6fc13b99e57d
+[3ms] 2025-12-08 13:27:00.479 [info] > git show --textconv :CharlotteBranch.r [3ms] 2025-12-08 13:27:00.540 [info] > git config --get commit.template [3ms] 2025-12-08 13:27:00.542 [info] > git for-each-ref --format=%
+(refname)%00%(upstream:short)%00%(objectname)%00%(upstream:track)%00%(upstream:remotename)%00%(upstream:remoteref) --ignore-case refs/heads/Charlotte refs/remotes/Charlotte [5ms] 2025-12-08 13:27:00.547 [info] > git
+status -z -uall [5ms]
+
+I ran git pull --no-rebase and got this message in my terminal Merge branch 'Charlotte' of https://github.com/jchen2140/qcb455_final_proj into Charlotte # Please enter a commit message to explain why this merge is
+necessary, # especially if it merges an updated upstream into a topic branch. # # Lines starting with '#' will be ignored, and an empty message aborts ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Type :qa! and press <Enter> to abandon
+all changes and exit Vim
+
+Its not letting me type anything in the terminal
