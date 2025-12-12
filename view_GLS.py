@@ -1,3 +1,5 @@
+# Written by Yubi
+
 import numpy as np
 
 data = np.load('GLS_p.npy')
